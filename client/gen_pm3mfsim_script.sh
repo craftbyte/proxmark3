@@ -7,12 +7,11 @@
 # http://www.linuxquestions.org/questions/programming-9/bash-script-parsing-optional-parameters-621728/
 
 # show program usage
-show_usage()
-{
-    echo
-    echo "Usage:"
-    echo "${0##/} input_eml_without_extension output.cmd"
-    exit
+show_usage() {
+  echo
+  echo "Usage:"
+  echo "${0##/} input_eml_without_extension output.cmd"
+  exit
 }
 
 # Minimum number of arguments needed by this program
@@ -22,14 +21,17 @@ MINARGS=2
 ARGC=$#
 
 # check to make sure enough arguments were given or exit
-if [[ $ARGC -lt $MINARGS ]] ; then
-    echo "Too few arguments given (Minimum:$MINARGS)"
-    echo
-    show_usage
+if [[ $ARGC -lt $MINARGS ]]; then
+  echo "Too few arguments given (Minimum:$MINARGS)"
+  echo
+  show_usage
 fi
 
 rm "$2"
-echo "hf mf eclr" >> "$2"
-echo "hf mf eload" "$1" >> "$2"
-echo "hf mf ekeyprn" >> "$2"
-echo "hf mf sim -u" "$(cat "$1".eml | (read -n 8 uid; echo "$uid"))" >> "$2"
+echo "hf mf eclr" >>"$2"
+echo "hf mf eload" "$1" >>"$2"
+echo "hf mf ekeyprn" >>"$2"
+echo "hf mf sim -u" "$(cat "$1".eml | (
+  read -n 8 uid
+  echo "$uid"
+))" >>"$2"
