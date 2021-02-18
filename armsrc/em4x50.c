@@ -1593,12 +1593,43 @@ static int em4x50_sim_handle_write_command(uint32_t *tag) {
 
     switch (address) {
 
-        case EM4X50_DEVICE_PASSWORD:
+    case EM4X50_DEVICE_PASSWORD:
+        em4x50_sim_send_nak();
+        return EM4X50_COMMAND_STANDARD_READ;
+        break;
+
+    case EM4X50_PROTECTION:
+        if (gLogin) {
+            tag[address] = reflect32(data);
+            em4x50_sim_send_ack();
+        } else {
             em4x50_sim_send_nak();
             return EM4X50_COMMAND_STANDARD_READ;
-            break;
+        }
+        break;
 
-        case EM4X50_PROTECTION:
+    case EM4X50_CONTROL:
+        if (gLogin) {
+            tag[address] = reflect32(data);
+            em4x50_sim_send_ack();
+        } else {
+            em4x50_sim_send_nak();
+            return EM4X50_COMMAND_STANDARD_READ;
+        }
+        break;
+
+    case EM4X50_DEVICE_SERIAL:
+        em4x50_sim_send_nak();
+        return EM4X50_COMMAND_STANDARD_READ;
+        break;
+
+    case EM4X50_DEVICE_ID:
+        em4x50_sim_send_nak();
+        return EM4X50_COMMAND_STANDARD_READ;
+        break;
+
+    default:
+        if ((address >= fwwp) && (address <= lwwp)) {
             if (gLogin) {
                 tag[address] = reflect32(data);
                 em4x50_sim_send_ack();
@@ -1606,42 +1637,11 @@ static int em4x50_sim_handle_write_command(uint32_t *tag) {
                 em4x50_sim_send_nak();
                 return EM4X50_COMMAND_STANDARD_READ;
             }
-            break;
-
-        case EM4X50_CONTROL:
-            if (gLogin) {
-                tag[address] = reflect32(data);
-                em4x50_sim_send_ack();
-            } else {
-                em4x50_sim_send_nak();
-                return EM4X50_COMMAND_STANDARD_READ;
-            }
-            break;
-
-        case EM4X50_DEVICE_SERIAL:
-            em4x50_sim_send_nak();
-            return EM4X50_COMMAND_STANDARD_READ;
-            break;
-
-        case EM4X50_DEVICE_ID:
-            em4x50_sim_send_nak();
-            return EM4X50_COMMAND_STANDARD_READ;
-            break;
-
-        default:
-            if ((address >= fwwp) && (address <= lwwp)) {
-                if (gLogin) {
-                    tag[address] = reflect32(data);
-                    em4x50_sim_send_ack();
-                } else {
-                    em4x50_sim_send_nak();
-                    return EM4X50_COMMAND_STANDARD_READ;
-                }
-            } else {
-                tag[address] = reflect32(data);
-                em4x50_sim_send_ack();
-            }
-            break;
+        } else {
+            tag[address] = reflect32(data);
+            em4x50_sim_send_ack();
+        }
+        break;
     }
 
     // EEPROM write time
@@ -1740,36 +1740,36 @@ void em4x50_handle_commands(int *command, uint32_t *tag) {
 
     switch (*command) {
 
-        case EM4X50_COMMAND_LOGIN:
-            *command = em4x50_sim_handle_login_command(tag);
-            break;
+    case EM4X50_COMMAND_LOGIN:
+        *command = em4x50_sim_handle_login_command(tag);
+        break;
 
-        case EM4X50_COMMAND_RESET:
-            *command = em4x50_sim_handle_reset_command(tag);
-            break;
+    case EM4X50_COMMAND_RESET:
+        *command = em4x50_sim_handle_reset_command(tag);
+        break;
 
-        case EM4X50_COMMAND_WRITE:
-            *command = em4x50_sim_handle_write_command(tag);
-            break;
+    case EM4X50_COMMAND_WRITE:
+        *command = em4x50_sim_handle_write_command(tag);
+        break;
 
-        case EM4X50_COMMAND_WRITE_PASSWORD:
-            *command = em4x50_sim_handle_writepwd_command(tag);
-            break;
+    case EM4X50_COMMAND_WRITE_PASSWORD:
+        *command = em4x50_sim_handle_writepwd_command(tag);
+        break;
 
-        case EM4X50_COMMAND_SELECTIVE_READ:
-            *command = em4x50_sim_handle_selective_read_command(tag);
-            break;
+    case EM4X50_COMMAND_SELECTIVE_READ:
+        *command = em4x50_sim_handle_selective_read_command(tag);
+        break;
 
-        case EM4X50_COMMAND_STANDARD_READ:
-            LED_C_OFF();
-            *command = em4x50_sim_handle_standard_read_command(tag);
-            break;
+    case EM4X50_COMMAND_STANDARD_READ:
+        LED_C_OFF();
+        *command = em4x50_sim_handle_standard_read_command(tag);
+        break;
 
-        // bit errors during reading may lead to unknown commands
-        // -> continue with standard read mode
-        default:
-            *command = EM4X50_COMMAND_STANDARD_READ;
-            break;
+    // bit errors during reading may lead to unknown commands
+    // -> continue with standard read mode
+    default:
+        *command = EM4X50_COMMAND_STANDARD_READ;
+        break;
     }
 }
 

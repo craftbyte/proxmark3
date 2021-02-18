@@ -1025,95 +1025,95 @@ bool SimulateIso14443aInit(int tagType, int flags, uint8_t *data, tag_response_i
     static uint8_t rPPS[3] = { 0xD0 };
 
     switch (tagType) {
-        case 1: { // MIFARE Classic 1k
-            rATQA[0] = 0x04;
-            sak = 0x08;
-        }
-        break;
-        case 2: { // MIFARE Ultralight
-            rATQA[0] = 0x44;
-            sak = 0x00;
-            // some first pages of UL/NTAG dump is special data
-            mfu_dump_t *mfu_header = (mfu_dump_t *) BigBuf_get_EM_addr();
-            *pages = MAX(mfu_header->pages, 15);
-        }
-        break;
-        case 3: { // MIFARE DESFire
-            rATQA[0] = 0x04;
-            rATQA[1] = 0x03;
-            sak = 0x20;
-        }
-        break;
-        case 4: { // ISO/IEC 14443-4 - javacard (JCOP)
-            rATQA[0] = 0x04;
-            sak = 0x28;
-        }
-        break;
-        case 5: { // MIFARE TNP3XXX
-            rATQA[0] = 0x01;
-            rATQA[1] = 0x0f;
-            sak = 0x01;
-        }
-        break;
-        case 6: { // MIFARE Mini 320b
-            rATQA[0] = 0x44;
-            sak = 0x09;
-        }
-        break;
-        case 7: { // NTAG
-            rATQA[0] = 0x44;
-            sak = 0x00;
-            // some first pages of UL/NTAG dump is special data
-            mfu_dump_t *mfu_header = (mfu_dump_t *) BigBuf_get_EM_addr();
-            *pages = MAX(mfu_header->pages, 19);
+    case 1: { // MIFARE Classic 1k
+        rATQA[0] = 0x04;
+        sak = 0x08;
+    }
+    break;
+    case 2: { // MIFARE Ultralight
+        rATQA[0] = 0x44;
+        sak = 0x00;
+        // some first pages of UL/NTAG dump is special data
+        mfu_dump_t *mfu_header = (mfu_dump_t *) BigBuf_get_EM_addr();
+        *pages = MAX(mfu_header->pages, 15);
+    }
+    break;
+    case 3: { // MIFARE DESFire
+        rATQA[0] = 0x04;
+        rATQA[1] = 0x03;
+        sak = 0x20;
+    }
+    break;
+    case 4: { // ISO/IEC 14443-4 - javacard (JCOP)
+        rATQA[0] = 0x04;
+        sak = 0x28;
+    }
+    break;
+    case 5: { // MIFARE TNP3XXX
+        rATQA[0] = 0x01;
+        rATQA[1] = 0x0f;
+        sak = 0x01;
+    }
+    break;
+    case 6: { // MIFARE Mini 320b
+        rATQA[0] = 0x44;
+        sak = 0x09;
+    }
+    break;
+    case 7: { // NTAG
+        rATQA[0] = 0x44;
+        sak = 0x00;
+        // some first pages of UL/NTAG dump is special data
+        mfu_dump_t *mfu_header = (mfu_dump_t *) BigBuf_get_EM_addr();
+        *pages = MAX(mfu_header->pages, 19);
 
-            // counters and tearing flags
-            // for old dumps with all zero headers, we need to set default values.
-            for (uint8_t i = 0; i < 3; i++) {
+        // counters and tearing flags
+        // for old dumps with all zero headers, we need to set default values.
+        for (uint8_t i = 0; i < 3; i++) {
 
-                counters[i] = le24toh(mfu_header->counter_tearing[i]);
+            counters[i] = le24toh(mfu_header->counter_tearing[i]);
 
-                if (mfu_header->counter_tearing[i][3] != 0x00) {
-                    tearings[i] = mfu_header->counter_tearing[i][3];
-                }
+            if (mfu_header->counter_tearing[i][3] != 0x00) {
+                tearings[i] = mfu_header->counter_tearing[i][3];
             }
+        }
 
-            // GET_VERSION
-            if (memcmp(mfu_header->version, "\x00\x00\x00\x00\x00\x00\x00\x00", 8) == 0) {
-                memcpy(rVERSION, "\x00\x04\x04\x02\x01\x00\x11\x03", 8);
-            } else {
-                memcpy(rVERSION, mfu_header->version, 8);
-            }
-            AddCrc14A(rVERSION, sizeof(rVERSION) - 2);
+        // GET_VERSION
+        if (memcmp(mfu_header->version, "\x00\x00\x00\x00\x00\x00\x00\x00", 8) == 0) {
+            memcpy(rVERSION, "\x00\x04\x04\x02\x01\x00\x11\x03", 8);
+        } else {
+            memcpy(rVERSION, mfu_header->version, 8);
+        }
+        AddCrc14A(rVERSION, sizeof(rVERSION) - 2);
 
-            // READ_SIG
-            memcpy(rSIGN, mfu_header->signature, 32);
-            AddCrc14A(rSIGN, sizeof(rSIGN) - 2);
-        }
-        break;
-        case 8: { // MIFARE Classic 4k
-            rATQA[0] = 0x02;
-            sak = 0x18;
-        }
-        break;
-        case 9: { // FM11RF005SH (Shanghai Metro)
-            rATQA[0] = 0x03;
-            rATQA[1] = 0x00;
-            sak = 0x0A;
-        }
-        break;
-        case 10: { // ST25TA IKEA Rothult
-            rATQA[0] = 0x42;
-            rATQA[1] = 0x00;
-            sak = 0x20;
-        }
-        break;
+        // READ_SIG
+        memcpy(rSIGN, mfu_header->signature, 32);
+        AddCrc14A(rSIGN, sizeof(rSIGN) - 2);
+    }
+    break;
+    case 8: { // MIFARE Classic 4k
+        rATQA[0] = 0x02;
+        sak = 0x18;
+    }
+    break;
+    case 9: { // FM11RF005SH (Shanghai Metro)
+        rATQA[0] = 0x03;
+        rATQA[1] = 0x00;
+        sak = 0x0A;
+    }
+    break;
+    case 10: { // ST25TA IKEA Rothult
+        rATQA[0] = 0x42;
+        rATQA[1] = 0x00;
+        sak = 0x20;
+    }
+    break;
 
-        default: {
-            if (DBGLEVEL >= DBG_ERROR) Dbprintf("Error: unknown tagtype (%d)", tagType);
-            return false;
-        }
-        break;
+    default: {
+        if (DBGLEVEL >= DBG_ERROR) Dbprintf("Error: unknown tagtype (%d)", tagType);
+        return false;
+    }
+    break;
     }
 
     // if uid not supplied then get from emulator memory
@@ -1404,36 +1404,36 @@ void SimulateIso14443aTag(uint8_t tagType, uint8_t flags, uint8_t *data, uint8_t
                 }
 
                 switch (ar_nr_nonces[index].state) {
-                    case EMPTY: {
-                        // first nonce collect
-                        ar_nr_nonces[index].cuid = cuid;
-                        ar_nr_nonces[index].sector = cardAUTHSC;
-                        ar_nr_nonces[index].keytype = cardAUTHKEY;
-                        ar_nr_nonces[index].nonce = nonce;
-                        ar_nr_nonces[index].nr = nr;
-                        ar_nr_nonces[index].ar = ar;
-                        ar_nr_nonces[index].state = FIRST;
-                        break;
-                    }
-                    case FIRST : {
-                        // second nonce collect
-                        ar_nr_nonces[index].nonce2 = nonce;
-                        ar_nr_nonces[index].nr2 = nr;
-                        ar_nr_nonces[index].ar2 = ar;
-                        ar_nr_nonces[index].state = SECOND;
+                case EMPTY: {
+                    // first nonce collect
+                    ar_nr_nonces[index].cuid = cuid;
+                    ar_nr_nonces[index].sector = cardAUTHSC;
+                    ar_nr_nonces[index].keytype = cardAUTHKEY;
+                    ar_nr_nonces[index].nonce = nonce;
+                    ar_nr_nonces[index].nr = nr;
+                    ar_nr_nonces[index].ar = ar;
+                    ar_nr_nonces[index].state = FIRST;
+                    break;
+                }
+                case FIRST : {
+                    // second nonce collect
+                    ar_nr_nonces[index].nonce2 = nonce;
+                    ar_nr_nonces[index].nr2 = nr;
+                    ar_nr_nonces[index].ar2 = ar;
+                    ar_nr_nonces[index].state = SECOND;
 
-                        // send to client  (one struct nonces_t)
-                        reply_ng(CMD_HF_MIFARE_SIMULATE, PM3_SUCCESS, (uint8_t *)&ar_nr_nonces[index], sizeof(nonces_t));
+                    // send to client  (one struct nonces_t)
+                    reply_ng(CMD_HF_MIFARE_SIMULATE, PM3_SUCCESS, (uint8_t *)&ar_nr_nonces[index], sizeof(nonces_t));
 
-                        ar_nr_nonces[index].state = EMPTY;
-                        ar_nr_nonces[index].sector = 0;
-                        ar_nr_nonces[index].keytype = 0;
+                    ar_nr_nonces[index].state = EMPTY;
+                    ar_nr_nonces[index].sector = 0;
+                    ar_nr_nonces[index].keytype = 0;
 
-                        moebius_count++;
-                        break;
-                    }
-                    default:
-                        break;
+                    moebius_count++;
+                    break;
+                }
+                default:
+                    break;
                 }
             }
             order = ORDER_NONE; // back to work state
@@ -1680,65 +1680,65 @@ void SimulateIso14443aTag(uint8_t tagType, uint8_t flags, uint8_t *data, uint8_t
 
                 // Check for ISO 14443A-4 compliant commands, look at left nibble
                 switch (receivedCmd[0]) {
-                    case 0x02:
-                    case 0x03: {  // IBlock (command no CID)
-                        dynamic_response_info.response[0] = receivedCmd[0];
-                        dynamic_response_info.response[1] = 0x90;
-                        dynamic_response_info.response[2] = 0x00;
-                        dynamic_response_info.response_n = 3;
-                    }
-                    break;
-                    case 0x0B:
-                    case 0x0A: { // IBlock (command CID)
-                        dynamic_response_info.response[0] = receivedCmd[0];
-                        dynamic_response_info.response[1] = 0x00;
-                        dynamic_response_info.response[2] = 0x90;
-                        dynamic_response_info.response[3] = 0x00;
-                        dynamic_response_info.response_n = 4;
-                    }
-                    break;
+                case 0x02:
+                case 0x03: {  // IBlock (command no CID)
+                    dynamic_response_info.response[0] = receivedCmd[0];
+                    dynamic_response_info.response[1] = 0x90;
+                    dynamic_response_info.response[2] = 0x00;
+                    dynamic_response_info.response_n = 3;
+                }
+                break;
+                case 0x0B:
+                case 0x0A: { // IBlock (command CID)
+                    dynamic_response_info.response[0] = receivedCmd[0];
+                    dynamic_response_info.response[1] = 0x00;
+                    dynamic_response_info.response[2] = 0x90;
+                    dynamic_response_info.response[3] = 0x00;
+                    dynamic_response_info.response_n = 4;
+                }
+                break;
 
-                    case 0x1A:
-                    case 0x1B: { // Chaining command
-                        dynamic_response_info.response[0] = 0xaa | ((receivedCmd[0]) & 1);
-                        dynamic_response_info.response_n = 2;
-                    }
-                    break;
+                case 0x1A:
+                case 0x1B: { // Chaining command
+                    dynamic_response_info.response[0] = 0xaa | ((receivedCmd[0]) & 1);
+                    dynamic_response_info.response_n = 2;
+                }
+                break;
 
-                    case 0xAA:
-                    case 0xBB: {
-                        dynamic_response_info.response[0] = receivedCmd[0] ^ 0x11;
-                        dynamic_response_info.response_n = 2;
-                    }
-                    break;
+                case 0xAA:
+                case 0xBB: {
+                    dynamic_response_info.response[0] = receivedCmd[0] ^ 0x11;
+                    dynamic_response_info.response_n = 2;
+                }
+                break;
 
-                    case 0xBA: { // ping / pong
-                        dynamic_response_info.response[0] = 0xAB;
-                        dynamic_response_info.response[1] = 0x00;
-                        dynamic_response_info.response_n = 2;
-                    }
-                    break;
+                case 0xBA: { // ping / pong
+                    dynamic_response_info.response[0] = 0xAB;
+                    dynamic_response_info.response[1] = 0x00;
+                    dynamic_response_info.response_n = 2;
+                }
+                break;
 
-                    case 0xCA:
-                    case 0xC2: { // Readers sends deselect command
-                        dynamic_response_info.response[0] = 0xCA;
-                        dynamic_response_info.response[1] = 0x00;
-                        dynamic_response_info.response_n = 2;
-                    }
-                    break;
+                case 0xCA:
+                case 0xC2: { // Readers sends deselect command
+                    dynamic_response_info.response[0] = 0xCA;
+                    dynamic_response_info.response[1] = 0x00;
+                    dynamic_response_info.response_n = 2;
+                }
+                break;
 
-                    default: {
-                        // Never seen this command before
-                        LogTrace(receivedCmd, Uart.len, Uart.startTime * 16 - DELAY_AIR2ARM_AS_TAG, Uart.endTime * 16 - DELAY_AIR2ARM_AS_TAG, Uart.parity, true);
-                        if (DBGLEVEL >= DBG_DEBUG) {
-                            Dbprintf("Received unknown command (len=%d):", len);
-                            Dbhexdump(len, receivedCmd, false);
-                        }
-                        // Do not respond
-                        dynamic_response_info.response_n = 0;
-                        order = ORDER_NONE; // back to work state
+                default: {
+                    // Never seen this command before
+                    LogTrace(receivedCmd, Uart.len, Uart.startTime * 16 - DELAY_AIR2ARM_AS_TAG, Uart.endTime * 16 - DELAY_AIR2ARM_AS_TAG, Uart.parity, true);
+                    if (DBGLEVEL >= DBG_DEBUG) {
+                        Dbprintf("Received unknown command (len=%d):", len);
+                        Dbhexdump(len, receivedCmd, false);
                     }
-                    break;
+                    // Do not respond
+                    dynamic_response_info.response_n = 0;
+                    order = ORDER_NONE; // back to work state
+                }
+                break;
                 }
 
             }
@@ -3114,17 +3114,17 @@ void ReaderMifare(bool first_try, uint8_t block, uint8_t keytype) {
                 continue;
             }
             switch (card_info.uidlen) {
-                case 4 :
-                    cascade_levels = 1;
-                    break;
-                case 7 :
-                    cascade_levels = 2;
-                    break;
-                case 10:
-                    cascade_levels = 3;
-                    break;
-                default:
-                    break;
+            case 4 :
+                cascade_levels = 1;
+                break;
+            case 7 :
+                cascade_levels = 2;
+                break;
+            case 10:
+                cascade_levels = 3;
+                break;
+            default:
+                break;
             }
             have_uid = true;
         } else { // no need for anticollision. We can directly select the card
@@ -3390,19 +3390,19 @@ void DetectNACKbug(void) {
                 continue;
             }
             switch (card_info.uidlen) {
-                case 4 :
-                    cascade_levels = 1;
-                    break;
-                case 7 :
-                    cascade_levels = 2;
-                    break;
-                case 10:
-                    cascade_levels = 3;
-                    break;
-                default:
-                    i = 0;
-                    have_uid = false;
-                    continue;
+            case 4 :
+                cascade_levels = 1;
+                break;
+            case 7 :
+                cascade_levels = 2;
+                break;
+            case 10:
+                cascade_levels = 3;
+                break;
+            default:
+                i = 0;
+                have_uid = false;
+                continue;
             }
             have_uid = true;
         } else { // no need for anticollision. We can directly select the card

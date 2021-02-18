@@ -46,24 +46,24 @@ static void print_result(const em4x50_word_t *words, int fwr, int lwr) {
 
         char s[50] = {0};
         switch (i) {
-            case EM4X50_DEVICE_PASSWORD:
-                sprintf(s, _YELLOW_("password, write only"));
-                break;
-            case EM4X50_PROTECTION:
-                sprintf(s, _YELLOW_("protection cfg (locked)"));
-                break;
-            case EM4X50_CONTROL:
-                sprintf(s, _YELLOW_("control cfg (locked)"));
-                break;
-            case EM4X50_DEVICE_SERIAL:
-                sprintf(s, _YELLOW_("device serial number (read only)"));
-                break;
-            case EM4X50_DEVICE_ID:
-                sprintf(s, _YELLOW_("device identification (read only)"));
-                break;
-            default:
-                sprintf(s, "user data");
-                break;
+        case EM4X50_DEVICE_PASSWORD:
+            sprintf(s, _YELLOW_("password, write only"));
+            break;
+        case EM4X50_PROTECTION:
+            sprintf(s, _YELLOW_("protection cfg (locked)"));
+            break;
+        case EM4X50_CONTROL:
+            sprintf(s, _YELLOW_("control cfg (locked)"));
+            break;
+        case EM4X50_DEVICE_SERIAL:
+            sprintf(s, _YELLOW_("device serial number (read only)"));
+            break;
+        case EM4X50_DEVICE_ID:
+            sprintf(s, _YELLOW_("device identification (read only)"));
+            break;
+        default:
+            sprintf(s, "user data");
+            break;
         }
 
         char r[30] = {0};

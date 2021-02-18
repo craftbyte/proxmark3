@@ -531,17 +531,17 @@ static int CmdHIDBrute(const char *Cmd) {
         PrintAndLogEx(INFO, "Facility#........ %u", cn_hi.FacilityCode);
         PrintAndLogEx(INFO, "Card#............ %" PRIu64, cn_hi.CardNumber);
         switch (direction) {
-            case 0:
-                PrintAndLogEx(INFO, "Brute-forcing direction: " _YELLOW_("BOTH") " delay " _YELLOW_("%d"), delay);
-                break;
-            case 1:
-                PrintAndLogEx(INFO, "Brute-forcing direction: " _YELLOW_("UP") " delay " _YELLOW_("%d"), delay);
-                break;
-            case 2:
-                PrintAndLogEx(INFO, "Brute-forcing direction: " _YELLOW_("DOWN") " delay " _YELLOW_("%d"), delay);
-                break;
-            default:
-                break;
+        case 0:
+            PrintAndLogEx(INFO, "Brute-forcing direction: " _YELLOW_("BOTH") " delay " _YELLOW_("%d"), delay);
+            break;
+        case 1:
+            PrintAndLogEx(INFO, "Brute-forcing direction: " _YELLOW_("UP") " delay " _YELLOW_("%d"), delay);
+            break;
+        case 2:
+            PrintAndLogEx(INFO, "Brute-forcing direction: " _YELLOW_("DOWN") " delay " _YELLOW_("%d"), delay);
+            break;
+        default:
+            break;
         }
     }
     PrintAndLogEx(INFO, "Started brute-forcing HID Prox reader");
@@ -592,19 +592,19 @@ static int CmdHIDBrute(const char *Cmd) {
         }
 
         switch (direction) {
-            case 0:
-                if (fin_hi && fin_low) {
-                    exitloop = true;
-                }
-                break;
-            case 1:
-                exitloop = fin_hi;
-                break;
-            case 2:
-                exitloop = fin_low;
-                break;
-            default:
-                break;
+        case 0:
+            if (fin_hi && fin_low) {
+                exitloop = true;
+            }
+            break;
+        case 1:
+            exitloop = fin_hi;
+            break;
+        case 2:
+            exitloop = fin_low;
+            break;
+        default:
+            break;
         }
 
     } while (exitloop == false);

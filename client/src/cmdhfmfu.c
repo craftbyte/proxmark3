@@ -80,15 +80,15 @@ static char *getProductTypeStr(uint8_t id) {
     char *retStr = buf;
 
     switch (id) {
-        case 3:
-            sprintf(retStr, "%02X, Ultralight", id);
-            break;
-        case 4:
-            sprintf(retStr, "%02X, NTAG", id);
-            break;
-        default:
-            sprintf(retStr, "%02X, unknown", id);
-            break;
+    case 3:
+        sprintf(retStr, "%02X, Ultralight", id);
+        break;
+    case 4:
+        sprintf(retStr, "%02X, NTAG", id);
+        break;
+    default:
+        sprintf(retStr, "%02X, unknown", id);
+        break;
     }
     return buf;
 }
@@ -352,15 +352,15 @@ static int ul_print_default(uint8_t *data, uint8_t *real_uid) {
     if (real_uid[0] == 0x05 && ((real_uid[1] & 0xf0) >> 4) == 2) {   // is infineon and 66RxxP
         uint8_t chip = (data[8] & 0xC7); // 11000111  mask, bit 3,4,5 RFU
         switch (chip) {
-            case 0xC2:
-                PrintAndLogEx(SUCCESS, "   IC type: SLE 66R04P 770 Bytes");
-                break; //77 pages
-            case 0xC4:
-                PrintAndLogEx(SUCCESS, "   IC type: SLE 66R16P 2560 Bytes");
-                break; //256 pages
-            case 0xC6:
-                PrintAndLogEx(SUCCESS, "   IC type: SLE 66R32P 5120 Bytes");
-                break; //512 pages /2 sectors
+        case 0xC2:
+            PrintAndLogEx(SUCCESS, "   IC type: SLE 66R04P 770 Bytes");
+            break; //77 pages
+        case 0xC4:
+            PrintAndLogEx(SUCCESS, "   IC type: SLE 66R16P 2560 Bytes");
+            break; //256 pages
+        case 0xC6:
+            PrintAndLogEx(SUCCESS, "   IC type: SLE 66R32P 5120 Bytes");
+            break; //512 pages /2 sectors
         }
     }
     if (mful_uid_layout) {
@@ -432,31 +432,31 @@ static int ndef_print_CC(uint8_t *data) {
 
     char wStr[50];
     switch (cc_write) {
-        case 0:
-            sprintf(wStr, "Write access granted without any security");
-            break;
-        case 1:
-            sprintf(wStr, "RFU");
-            break;
-        case 2:
-            sprintf(wStr, "Proprietary");
-            break;
-        case 3:
-            sprintf(wStr, "No write access");
-            break;
+    case 0:
+        sprintf(wStr, "Write access granted without any security");
+        break;
+    case 1:
+        sprintf(wStr, "RFU");
+        break;
+    case 2:
+        sprintf(wStr, "Proprietary");
+        break;
+    case 3:
+        sprintf(wStr, "No write access");
+        break;
     }
     char rStr[46];
     switch (cc_read) {
-        case 0:
-            sprintf(rStr, "Read access granted without any security");
-            break;
-        case 1:
-        case 3:
-            sprintf(rStr, "RFU");
-            break;
-        case 2:
-            sprintf(rStr, "Proprietary");
-            break;
+    case 0:
+        sprintf(rStr, "Read access granted without any security");
+        break;
+    case 1:
+    case 3:
+        sprintf(rStr, "RFU");
+        break;
+    case 2:
+        sprintf(rStr, "Proprietary");
+        break;
     }
 
 
@@ -634,62 +634,80 @@ static int ulev1_print_configuration(uint32_t tagtype, uint8_t *data, uint8_t st
         uint8_t fdp_conf = (data[0] & 0x03);
 
         switch (mirror_conf) {
-            case 0:
-                PrintAndLogEx(INFO, "                    - no ASCII mirror");
-                break;
-            case 1:
-                PrintAndLogEx(INFO, "                    - UID ASCII mirror");
-                break;
-            case 2:
-                PrintAndLogEx(INFO, "                    - NFC counter ASCII mirror");
-                break;
-            case 3:
-                PrintAndLogEx(INFO, "                    - UID and NFC counter ASCII mirror");
-                break;
-            default:
-                break;
+        case 0:
+            PrintAndLogEx(INFO, "                    - no ASCII mirror");
+            break;
+        case 1:
+            PrintAndLogEx(INFO, "                    - UID ASCII mirror");
+            break;
+        case 2:
+            PrintAndLogEx(INFO, "                    - NFC counter ASCII mirror");
+            break;
+        case 3:
+            PrintAndLogEx(INFO, "                    - UID and NFC counter ASCII mirror");
+            break;
+        default:
+            break;
         }
 
         PrintAndLogEx(INFO, "                    - SLEEP mode %s", (sleep_en) ? "enabled" : "disabled");
 
         switch (fdp_conf) {
-            case 0:
-                PrintAndLogEx(INFO, "                    - no field detect");
-                break;
-            case 1:
-                PrintAndLogEx(INFO, "                    - enabled by first State-of-Frame (start of communication)");
-                break;
-            case 2:
-                PrintAndLogEx(INFO, "                    - enabled by selection of the tag");
-                break;
-            case 3:
-                PrintAndLogEx(INFO, "                    - enabled by field presence");
-                break;
-            default:
-                break;
+        case 0:
+            PrintAndLogEx(INFO, "                    - no field detect");
+            break;
+        case 1:
+            PrintAndLogEx(INFO, "                    - enabled by first State-of-Frame (start of communication)");
+            break;
+        case 2:
+            PrintAndLogEx(INFO, "                    - enabled by selection of the tag");
+            break;
+        case 3:
+            PrintAndLogEx(INFO, "                    - enabled by field presence");
+            break;
+        default:
+            break;
         }
         // valid mirror start page and byte position within start page.
         if ((tagtype & NTAG_213_F) || (tagtype & NTAG_213_TT)) {
             switch (mirror_conf) {
-                case 1:
-                { PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0x24) ? "OK" : "Invalid value"); break;}
-                case 2:
-                { PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0x26) ? "OK" : "Invalid value"); break;}
-                case 3:
-                { PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0x22) ? "OK" : "Invalid value"); break;}
-                default:
-                    break;
+            case 1:
+            {
+                PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0x24) ? "OK" : "Invalid value");
+                break;
+            }
+            case 2:
+            {
+                PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0x26) ? "OK" : "Invalid value");
+                break;
+            }
+            case 3:
+            {
+                PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0x22) ? "OK" : "Invalid value");
+                break;
+            }
+            default:
+                break;
             }
         } else if (tagtype & NTAG_216_F) {
             switch (mirror_conf) {
-                case 1:
-                { PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0xDE) ? "OK" : "Invalid value"); break;}
-                case 2:
-                { PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0xE0) ? "OK" : "Invalid value"); break;}
-                case 3:
-                { PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0xDC) ? "OK" : "Invalid value"); break;}
-                default:
-                    break;
+            case 1:
+            {
+                PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0xDE) ? "OK" : "Invalid value");
+                break;
+            }
+            case 2:
+            {
+                PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0xE0) ? "OK" : "Invalid value");
+                break;
+            }
+            case 3:
+            {
+                PrintAndLogEx(INFO, "         mirror start block %02X | byte pos %02X - %s", data[2], mirror_byte, (data[2] >= 0x4 && data[2] <= 0xDC) ? "OK" : "Invalid value");
+                break;
+            }
+            default:
+                break;
             }
         }
     }
@@ -916,14 +934,14 @@ static int ul_magic_test(void) {
             is_generation = resp.data.asBytes[0];
     }
     switch (is_generation) {
-        case MAGIC_GEN_1A:
-            return MAGIC_1A;
-        case MAGIC_GEN_1B:
-            return MAGIC_1B;
-        case MAGIC_NTAG21X:
-            return MAGIC_NTAG;
-        default:
-            break;
+    case MAGIC_GEN_1A:
+        return MAGIC_1A;
+    case MAGIC_GEN_1B:
+        return MAGIC_1B;
+    case MAGIC_NTAG21X:
+        return MAGIC_NTAG;
+    default:
+        break;
     }
     return 0;
 }
@@ -963,81 +981,143 @@ uint32_t GetHF14AMfU_Type(void) {
         DropField();
 
         switch (len) {
-            case 0x0A: {
-                /*
-                MF0UL1001DUx 0004030100000B03
-                MF0UL1101DUx 0004030101000B03
-                MF0ULH1101DUx 0004030201000B03
-                MF0UL1141DUF 0004030301000B03
-                MF0UL2101Dxy 0004030101000E03
-                MF0UL2101DUx 0004030201000E03
-                MF0UL3101DUx 0004030101001103
-                MF0ULH3101DUx 0004030201001103
-                MF0UL5101DUx 0004030101001303
-                NT2L1011F0DUx 0004040101000B03
-                NT2H1011G0DUD 0004040201000B03
-                NT2L1211F0DUx 0004040101000E03
-                NT2H1311G0DUx 0004040201000F03
-                NT2H1311F0Dxy 0004040401000F03
-                NT2H1411G0DUx 0004040201011103
-                NT2H1511G0DUx 0004040201001103
-                NT2H1511F0Dxy 0004040401001103
-                NT2H1611G0DUx 0004040201001303
-                NT2H1611F0Dxy 0004040401001303
-                NT2H1311C1DTL 0004040201010F03
-                NT2H1311TTDUx 0004040203000F03
-                NT3H1101W0FHK 0004040502001303
-                NT3H1201W0FHK 0004040502001503
-                NT3H1101W0FHK_Variant 0004040502011303
-                NT3H1201 0004040502011503
-                NT3H2111 0004040502021303
-                NT3H2211 0004040502021503
-                nhs 0004040600001303
-                MF0UN0001DUx 0004030102000B03
-                MF0UNH0001DUx 0004030202000B03
-                MF0UN1001DUx 0004030103000B03
-                MF0UNH1001DUx 0004030203000B03
-                NT2L1001G0DUx 0004040102000B03
-                NT2H1001G0DUx 0004040202000B03
-                NT2H1311TTDUx 0004040203000F03
-                Micron UL 0034210101000E03
-                */
+        case 0x0A: {
+            /*
+            MF0UL1001DUx 0004030100000B03
+            MF0UL1101DUx 0004030101000B03
+            MF0ULH1101DUx 0004030201000B03
+            MF0UL1141DUF 0004030301000B03
+            MF0UL2101Dxy 0004030101000E03
+            MF0UL2101DUx 0004030201000E03
+            MF0UL3101DUx 0004030101001103
+            MF0ULH3101DUx 0004030201001103
+            MF0UL5101DUx 0004030101001303
+            NT2L1011F0DUx 0004040101000B03
+            NT2H1011G0DUD 0004040201000B03
+            NT2L1211F0DUx 0004040101000E03
+            NT2H1311G0DUx 0004040201000F03
+            NT2H1311F0Dxy 0004040401000F03
+            NT2H1411G0DUx 0004040201011103
+            NT2H1511G0DUx 0004040201001103
+            NT2H1511F0Dxy 0004040401001103
+            NT2H1611G0DUx 0004040201001303
+            NT2H1611F0Dxy 0004040401001303
+            NT2H1311C1DTL 0004040201010F03
+            NT2H1311TTDUx 0004040203000F03
+            NT3H1101W0FHK 0004040502001303
+            NT3H1201W0FHK 0004040502001503
+            NT3H1101W0FHK_Variant 0004040502011303
+            NT3H1201 0004040502011503
+            NT3H2111 0004040502021303
+            NT3H2211 0004040502021503
+            nhs 0004040600001303
+            MF0UN0001DUx 0004030102000B03
+            MF0UNH0001DUx 0004030202000B03
+            MF0UN1001DUx 0004030103000B03
+            MF0UNH1001DUx 0004030203000B03
+            NT2L1001G0DUx 0004040102000B03
+            NT2H1001G0DUx 0004040202000B03
+            NT2H1311TTDUx 0004040203000F03
+            Micron UL 0034210101000E03
+            */
 
-                if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0B", 7) == 0)      { tagtype = UL_EV1_48; break; }
-                else if (memcmp(version, "\x00\x04\x03\x01\x02\x00\x0B", 7) == 0) { tagtype = UL_NANO_40; break; }
-                else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0B", 7) == 0) { tagtype = UL_EV1_48; break; }
-                else if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0E", 7) == 0) { tagtype = UL_EV1_128; break; }
-                else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0E", 7) == 0) { tagtype = UL_EV1_128; break; }
-                else if (memcmp(version, "\x00\x34\x21\x01\x01\x00\x0E", 7) == 0) { tagtype = UL_EV1_128; break; } // Mikron JSC Russia EV1 41 pages tag
-                else if (memcmp(version, "\x00\x04\x04\x01\x01\x00\x0B", 7) == 0) { tagtype = NTAG_210; break; }
-                else if (memcmp(version, "\x00\x04\x04\x01\x01\x00\x0E", 7) == 0) { tagtype = NTAG_212; break; }
-                else if (memcmp(version, "\x00\x04\x04\x02\x01\x00\x0F", 7) == 0) { tagtype = NTAG_213; break; }
-                else if (memcmp(version, "\x00\x04\x04\x02\x01\x01\x0F", 7) == 0) { tagtype = NTAG_213_C; break; }
-                else if (memcmp(version, "\x00\x04\x04\x02\x01\x00\x11", 7) == 0) { tagtype = NTAG_215; break; }
-                else if (memcmp(version, "\x00\x04\x04\x02\x01\x00\x13", 7) == 0) { tagtype = NTAG_216; break; }
-                else if (memcmp(version, "\x00\x04\x04\x04\x01\x00\x0F", 7) == 0) { tagtype = NTAG_213_F; break; }
-                else if (memcmp(version, "\x00\x04\x04\x04\x01\x00\x13", 7) == 0) { tagtype = NTAG_216_F; break; }
-                else if (memcmp(version, "\x00\x04\x04\x02\x03\x00\x0F", 7) == 0) { tagtype = NTAG_213_TT; break; }
-                else if (memcmp(version, "\x00\x04\x04\x05\x02\x01\x13", 7) == 0) { tagtype = NTAG_I2C_1K; break; }
-                else if (memcmp(version, "\x00\x04\x04\x05\x02\x01\x15", 7) == 0) { tagtype = NTAG_I2C_2K; break; }
-                else if (memcmp(version, "\x00\x04\x04\x05\x02\x02\x13", 7) == 0) { tagtype = NTAG_I2C_1K_PLUS; break; }
-                else if (memcmp(version, "\x00\x04\x04\x05\x02\x02\x15", 7) == 0) { tagtype = NTAG_I2C_2K_PLUS; break; }
-                else if (version[2] == 0x04) { tagtype = NTAG; break; }
-                else if (version[2] == 0x03) { tagtype = UL_EV1; }
+            if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0B", 7) == 0)      {
+                tagtype = UL_EV1_48;
                 break;
             }
-            case 0x01:
-                tagtype = UL_C;
+            else if (memcmp(version, "\x00\x04\x03\x01\x02\x00\x0B", 7) == 0) {
+                tagtype = UL_NANO_40;
                 break;
-            case 0x00:
-                tagtype = UL;
+            }
+            else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0B", 7) == 0) {
+                tagtype = UL_EV1_48;
                 break;
-            case -1  :
-                tagtype = (UL | UL_C | NTAG_203);
-                break;  // could be UL | UL_C magic tags
-            default  :
-                tagtype = UNKNOWN;
+            }
+            else if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0E", 7) == 0) {
+                tagtype = UL_EV1_128;
                 break;
+            }
+            else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0E", 7) == 0) {
+                tagtype = UL_EV1_128;
+                break;
+            }
+            else if (memcmp(version, "\x00\x34\x21\x01\x01\x00\x0E", 7) == 0) {
+                tagtype = UL_EV1_128;    // Mikron JSC Russia EV1 41 pages tag
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x01\x01\x00\x0B", 7) == 0) {
+                tagtype = NTAG_210;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x01\x01\x00\x0E", 7) == 0) {
+                tagtype = NTAG_212;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x02\x01\x00\x0F", 7) == 0) {
+                tagtype = NTAG_213;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x02\x01\x01\x0F", 7) == 0) {
+                tagtype = NTAG_213_C;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x02\x01\x00\x11", 7) == 0) {
+                tagtype = NTAG_215;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x02\x01\x00\x13", 7) == 0) {
+                tagtype = NTAG_216;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x04\x01\x00\x0F", 7) == 0) {
+                tagtype = NTAG_213_F;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x04\x01\x00\x13", 7) == 0) {
+                tagtype = NTAG_216_F;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x02\x03\x00\x0F", 7) == 0) {
+                tagtype = NTAG_213_TT;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x05\x02\x01\x13", 7) == 0) {
+                tagtype = NTAG_I2C_1K;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x05\x02\x01\x15", 7) == 0) {
+                tagtype = NTAG_I2C_2K;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x05\x02\x02\x13", 7) == 0) {
+                tagtype = NTAG_I2C_1K_PLUS;
+                break;
+            }
+            else if (memcmp(version, "\x00\x04\x04\x05\x02\x02\x15", 7) == 0) {
+                tagtype = NTAG_I2C_2K_PLUS;
+                break;
+            }
+            else if (version[2] == 0x04) {
+                tagtype = NTAG;
+                break;
+            }
+            else if (version[2] == 0x03) {
+                tagtype = UL_EV1;
+            }
+            break;
+        }
+        case 0x01:
+            tagtype = UL_C;
+            break;
+        case 0x00:
+            tagtype = UL;
+            break;
+        case -1  :
+            tagtype = (UL | UL_C | NTAG_203);
+            break;  // could be UL | UL_C magic tags
+        default  :
+            tagtype = UNKNOWN;
+            break;
         }
 
         // UL vs UL-C vs ntag203 test
@@ -1081,19 +1161,19 @@ uint32_t GetHF14AMfU_Type(void) {
         // Infinition MY-D tests   Exam high nibble
         uint8_t nib = (card.uid[1] & 0xf0) >> 4;
         switch (nib) {
-            // case 0: tagtype =  SLE66R35E7; break; //or SLE 66R35E7 - mifare compat... should have different sak/atqa for mf 1k
-            case 1:
-                tagtype =  MY_D;
-                break; // or SLE 66RxxS ... up to 512 pages of 8 user bytes...
-            case 2:
-                tagtype = (MY_D_NFC);
-                break; // or SLE 66RxxP ... up to 512 pages of 8 user bytes... (or in nfc mode FF pages of 4 bytes)
-            case 3:
-                tagtype = (MY_D_MOVE | MY_D_MOVE_NFC);
-                break; // or SLE 66R01P // 38 pages of 4 bytes //notice: we can not currently distinguish between these two
-            case 7:
-                tagtype =  MY_D_MOVE_LEAN;
-                break; // or SLE 66R01L  // 16 pages of 4 bytes
+        // case 0: tagtype =  SLE66R35E7; break; //or SLE 66R35E7 - mifare compat... should have different sak/atqa for mf 1k
+        case 1:
+            tagtype =  MY_D;
+            break; // or SLE 66RxxS ... up to 512 pages of 8 user bytes...
+        case 2:
+            tagtype = (MY_D_NFC);
+            break; // or SLE 66RxxP ... up to 512 pages of 8 user bytes... (or in nfc mode FF pages of 4 bytes)
+        case 3:
+            tagtype = (MY_D_MOVE | MY_D_MOVE_NFC);
+            break; // or SLE 66R01P // 38 pages of 4 bytes //notice: we can not currently distinguish between these two
+        case 7:
+            tagtype =  MY_D_MOVE_LEAN;
+            break; // or SLE 66R01L  // 16 pages of 4 bytes
         }
     }
 
@@ -1691,95 +1771,95 @@ void printMFUdumpEx(mfu_dump_t *card, uint16_t pages, uint8_t startpage) {
             continue;
         }
         switch (i) {
-            case  3:
-                lckbit = bit_stat[4];
-                break;
-            case  4:
-                lckbit = bit_stat[3];
-                break;
-            case  5:
-                lckbit = bit_stat[2];
-                break;
-            case  6:
-                lckbit = bit_stat[1];
-                break;
-            case  7:
-                lckbit = bit_stat[0];
-                break;
-            case  8:
-                lckbit = bit_stat[15];
-                break;
-            case  9:
-                lckbit = bit_stat[14];
-                break;
-            case 10:
-                lckbit = bit_stat[13];
-                break;
-            case 11:
-                lckbit = bit_stat[12];
-                break;
-            case 12:
-                lckbit = bit_stat[11];
-                break;
-            case 13:
-                lckbit = bit_stat[10];
-                break;
-            case 14:
-                lckbit = bit_stat[9];
-                break;
-            case 15:
-                lckbit = bit_stat[8];
-                break;
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-                lckbit = bit_dyn[6];
-                break;
-            case 20:
-            case 21:
-            case 22:
-            case 23:
-                lckbit = bit_dyn[5];
-                break;
-            case 24:
-            case 25:
-            case 26:
-            case 27:
-                lckbit = bit_dyn[4];
-                break;
-            case 28:
-            case 29:
-            case 30:
-            case 31:
-                lckbit = bit_dyn[2];
-                break;
-            case 32:
-            case 33:
-            case 34:
-            case 35:
-                lckbit = bit_dyn[1];
-                break;
-            case 36:
-            case 37:
-            case 38:
-            case 39:
-                lckbit = bit_dyn[0];
-                break;
-            case 40:
-                lckbit = bit_dyn[12];
-                break;
-            case 41:
-                lckbit = bit_dyn[11];
-                break;
-            case 42:
-                lckbit = bit_dyn[10];
-                break; //auth0
-            case 43:
-                lckbit = bit_dyn[9];
-                break;  //auth1
-            default:
-                break;
+        case  3:
+            lckbit = bit_stat[4];
+            break;
+        case  4:
+            lckbit = bit_stat[3];
+            break;
+        case  5:
+            lckbit = bit_stat[2];
+            break;
+        case  6:
+            lckbit = bit_stat[1];
+            break;
+        case  7:
+            lckbit = bit_stat[0];
+            break;
+        case  8:
+            lckbit = bit_stat[15];
+            break;
+        case  9:
+            lckbit = bit_stat[14];
+            break;
+        case 10:
+            lckbit = bit_stat[13];
+            break;
+        case 11:
+            lckbit = bit_stat[12];
+            break;
+        case 12:
+            lckbit = bit_stat[11];
+            break;
+        case 13:
+            lckbit = bit_stat[10];
+            break;
+        case 14:
+            lckbit = bit_stat[9];
+            break;
+        case 15:
+            lckbit = bit_stat[8];
+            break;
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+            lckbit = bit_dyn[6];
+            break;
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+            lckbit = bit_dyn[5];
+            break;
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+            lckbit = bit_dyn[4];
+            break;
+        case 28:
+        case 29:
+        case 30:
+        case 31:
+            lckbit = bit_dyn[2];
+            break;
+        case 32:
+        case 33:
+        case 34:
+        case 35:
+            lckbit = bit_dyn[1];
+            break;
+        case 36:
+        case 37:
+        case 38:
+        case 39:
+            lckbit = bit_dyn[0];
+            break;
+        case 40:
+            lckbit = bit_dyn[12];
+            break;
+        case 41:
+            lckbit = bit_dyn[11];
+            break;
+        case 42:
+            lckbit = bit_dyn[10];
+            break; //auth0
+        case 43:
+            lckbit = bit_dyn[9];
+            break;  //auth1
+        default:
+            break;
         }
         PrintAndLogEx(INFO, "%3d/0x%02X | %s| %s | %s", i + startpage, i + startpage, sprint_hex(data + i * 4, 4), (lckbit) ? _RED_("1") : "0", sprint_ascii(data + i * 4, 4));
     }
@@ -3482,15 +3562,15 @@ static int CmdHF14MfuNDEF(const char *Cmd) {
     CLIParserFree(ctx);
 
     switch (keylen) {
-        case 0:
-            break;
-        case 4:
-        case 16:
-            hasAuthKey = true;
-            break;
-        default:
-            PrintAndLogEx(WARNING, "ERROR: Key is incorrect length\n");
-            return PM3_EINVARG;
+    case 0:
+        break;
+    case 4:
+    case 16:
+        hasAuthKey = true;
+        break;
+    default:
+        PrintAndLogEx(WARNING, "ERROR: Key is incorrect length\n");
+        return PM3_EINVARG;
     }
 
     // Get tag type

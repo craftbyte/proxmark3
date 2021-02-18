@@ -629,7 +629,9 @@ int param_gethex(const char *line, int paramnum, uint8_t *data, int hexcnt) {
     for (i = 0; i < hexcnt; i += 2) {
         if (!(isxdigit(line[bg + i]) && isxdigit(line[bg + i + 1]))) return 1;
 
-        sscanf((char[]) {line[bg + i], line[bg + i + 1], 0}, "%X", &temp);
+        sscanf((char[]) {
+            line[bg + i], line[bg + i + 1], 0
+        }, "%X", &temp);
         data[i / 2] = temp & 0xff;
     }
 
@@ -648,7 +650,9 @@ int param_gethex_ex(const char *line, int paramnum, uint8_t *data, int *hexcnt) 
     for (i = 0; i < *hexcnt; i += 2) {
         if (!(isxdigit(line[bg + i]) && isxdigit(line[bg + i + 1]))) return 1;
 
-        sscanf((char[]) {line[bg + i], line[bg + i + 1], 0}, "%X", &temp);
+        sscanf((char[]) {
+            line[bg + i], line[bg + i + 1], 0
+        }, "%X", &temp);
         data[i / 2] = temp & 0xff;
     }
 

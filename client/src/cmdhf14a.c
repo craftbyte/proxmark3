@@ -645,19 +645,19 @@ int CmdHF14ASim(const char *Cmd) {
 
     if (uid_len > 0) {
         switch (uid_len) {
-            case 10:
-                flags |= FLAG_10B_UID_IN_DATA;
-                break;
-            case 7:
-                flags |= FLAG_7B_UID_IN_DATA;
-                break;
-            case 4:
-                flags |= FLAG_4B_UID_IN_DATA;
-                break;
-            default:
-                PrintAndLogEx(ERR, "Please specify a 4, 7, or 10 byte UID");
-                CLIParserFree(ctx);
-                return PM3_EINVARG;
+        case 10:
+            flags |= FLAG_10B_UID_IN_DATA;
+            break;
+        case 7:
+            flags |= FLAG_7B_UID_IN_DATA;
+            break;
+        case 4:
+            flags |= FLAG_4B_UID_IN_DATA;
+            break;
+        default:
+            PrintAndLogEx(ERR, "Please specify a 4, 7, or 10 byte UID");
+            CLIParserFree(ctx);
+            return PM3_EINVARG;
         }
         PrintAndLogEx(SUCCESS, "Emulating " _YELLOW_("ISO/IEC 14443 type A tag")" with " _GREEN_("%d byte UID (%s)"), uid_len, sprint_hex(uid, uid_len));
         useUIDfromEML = false;
@@ -1661,111 +1661,111 @@ int infoHF14A(bool verbose, bool do_nack_test, bool do_aid_search) {
         PrintAndLogEx(SUCCESS, "MANUFACTURER:    " _YELLOW_("%s"), getTagInfo(card.uid[0]));
 
         switch (card.uid[0]) {
-            case 0x02: // ST
-                isST = true;
-                break;
-            case 0x04: // NXP
-                nxptype = detect_nxp_card(card.sak, ((card.atqa[1] << 8) + card.atqa[0]), select_status);
+        case 0x02: // ST
+            isST = true;
+            break;
+        case 0x04: // NXP
+            nxptype = detect_nxp_card(card.sak, ((card.atqa[1] << 8) + card.atqa[0]), select_status);
 
-                isMifareClassic = ((nxptype & MTCLASSIC) == MTCLASSIC);
-                isMifareDESFire = ((nxptype & MTDESFIRE) == MTDESFIRE);
-                isMifarePlus = ((nxptype & MTPLUS) == MTPLUS);
-                isMifareUltralight = ((nxptype & MTULTRALIGHT) == MTULTRALIGHT);
+            isMifareClassic = ((nxptype & MTCLASSIC) == MTCLASSIC);
+            isMifareDESFire = ((nxptype & MTDESFIRE) == MTDESFIRE);
+            isMifarePlus = ((nxptype & MTPLUS) == MTPLUS);
+            isMifareUltralight = ((nxptype & MTULTRALIGHT) == MTULTRALIGHT);
 
-                if ((nxptype & MTOTHER) == MTOTHER)
-                    isMifareClassic = true;
+            if ((nxptype & MTOTHER) == MTOTHER)
+                isMifareClassic = true;
 
-                break;
-            case 0x05: // Infineon
-                if ((card.uid[1] & 0xF0) == 0x10) {
-                    printTag("my-d(tm) command set SLE 66R04/16/32P, SLE 66R04/16/32S");
-                } else if ((card.uid[1] & 0xF0) == 0x20) {
-                    printTag("my-d(tm) command set SLE 66R01/16/32P (Type 2 Tag)");
-                } else if ((card.uid[1] & 0xF0) == 0x30) {
-                    printTag("my-d(tm) move lean SLE 66R01P/66R01PN");
-                } else if ((card.uid[1] & 0xF0) == 0x70) {
-                    printTag("my-d(tm) move lean SLE 66R01L");
-                }
-                isMifareUltralight = true;
+            break;
+        case 0x05: // Infineon
+            if ((card.uid[1] & 0xF0) == 0x10) {
+                printTag("my-d(tm) command set SLE 66R04/16/32P, SLE 66R04/16/32S");
+            } else if ((card.uid[1] & 0xF0) == 0x20) {
+                printTag("my-d(tm) command set SLE 66R01/16/32P (Type 2 Tag)");
+            } else if ((card.uid[1] & 0xF0) == 0x30) {
+                printTag("my-d(tm) move lean SLE 66R01P/66R01PN");
+            } else if ((card.uid[1] & 0xF0) == 0x70) {
+                printTag("my-d(tm) move lean SLE 66R01L");
+            }
+            isMifareUltralight = true;
+            isMifareClassic = false;
+
+            if (card.sak == 0x88) {
+                printTag("Infineon MIFARE CLASSIC 1K");
+                isMifareUltralight = false;
+                isMifareClassic = true;
+            }
+            getTagLabel(card.uid[0], card.uid[1]);
+            break;
+        case 0x46:
+            if (memcmp(card.uid, "FSTN10m", 7) == 0) {
+                isMifareClassic = false;
+                printTag("Waveshare NFC-Powered e-Paper 1.54\" (please disregard MANUFACTURER mapping above)");
+            }
+            break;
+        case 0x57:
+            if (memcmp(card.uid, "WSDZ10m", 7) == 0) {
+                isMifareClassic = false;
+                printTag("Waveshare NFC-Powered e-Paper (please disregard MANUFACTURER mapping above)");
+            }
+            break;
+        default:
+            getTagLabel(card.uid[0], card.uid[1]);
+            switch (card.sak) {
+            case 0x00: {
                 isMifareClassic = false;
 
-                if (card.sak == 0x88) {
-                    printTag("Infineon MIFARE CLASSIC 1K");
-                    isMifareUltralight = false;
-                    isMifareClassic = true;
+                // ******** is card of the MFU type (UL/ULC/NTAG/ etc etc)
+                DropField();
+
+                uint32_t tagT = GetHF14AMfU_Type();
+                if (tagT != UL_ERROR) {
+                    ul_print_type(tagT, 0);
+                    isMifareUltralight = true;
+                    printTag("MIFARE Ultralight/C/NTAG Compatible");
+                } else {
+                    printTag("Possible AZTEK (iso14443a compliant)");
                 }
-                getTagLabel(card.uid[0], card.uid[1]);
-                break;
-            case 0x46:
-                if (memcmp(card.uid, "FSTN10m", 7) == 0) {
-                    isMifareClassic = false;
-                    printTag("Waveshare NFC-Powered e-Paper 1.54\" (please disregard MANUFACTURER mapping above)");
-                }
-                break;
-            case 0x57:
-                if (memcmp(card.uid, "WSDZ10m", 7) == 0) {
-                    isMifareClassic = false;
-                    printTag("Waveshare NFC-Powered e-Paper (please disregard MANUFACTURER mapping above)");
-                }
-                break;
-            default:
-                getTagLabel(card.uid[0], card.uid[1]);
-                switch (card.sak) {
-                    case 0x00: {
-                        isMifareClassic = false;
 
-                        // ******** is card of the MFU type (UL/ULC/NTAG/ etc etc)
-                        DropField();
+                // reconnect for further tests
+                clearCommandBuffer();
+                SendCommandMIX(CMD_HF_ISO14443A_READER, ISO14A_CONNECT | ISO14A_NO_DISCONNECT, 0, 0, NULL, 0);
+                WaitForResponse(CMD_ACK, &resp);
 
-                        uint32_t tagT = GetHF14AMfU_Type();
-                        if (tagT != UL_ERROR) {
-                            ul_print_type(tagT, 0);
-                            isMifareUltralight = true;
-                            printTag("MIFARE Ultralight/C/NTAG Compatible");
-                        } else {
-                            printTag("Possible AZTEK (iso14443a compliant)");
-                        }
+                memcpy(&card, (iso14a_card_select_t *)resp.data.asBytes, sizeof(iso14a_card_select_t));
 
-                        // reconnect for further tests
-                        clearCommandBuffer();
-                        SendCommandMIX(CMD_HF_ISO14443A_READER, ISO14A_CONNECT | ISO14A_NO_DISCONNECT, 0, 0, NULL, 0);
-                        WaitForResponse(CMD_ACK, &resp);
+                select_status = resp.oldarg[0]; // 0: couldn't read, 1: OK, with ATS, 2: OK, no ATS
 
-                        memcpy(&card, (iso14a_card_select_t *)resp.data.asBytes, sizeof(iso14a_card_select_t));
-
-                        select_status = resp.oldarg[0]; // 0: couldn't read, 1: OK, with ATS, 2: OK, no ATS
-
-                        if (select_status == 0) {
-                            DropField();
-                            return select_status;
-                        }
-                        break;
-                    }
-                    case 0x0A: {
-                        printTag("FM11RF005SH (Shanghai Metro)");
-                        break;
-                    }
-                    case 0x20: {
-                        printTag("JCOP 31/41");
-                        break;
-                    }
-                    case 0x28: {
-                        printTag("JCOP31 or JCOP41 v2.3.1");
-                        break;
-                    }
-                    case 0x38: {
-                        printTag("Nokia 6212 or 6131");
-                        break;
-                    }
-                    case 0x98: {
-                        printTag("Gemplus MPCOS");
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
+                if (select_status == 0) {
+                    DropField();
+                    return select_status;
                 }
                 break;
+            }
+            case 0x0A: {
+                printTag("FM11RF005SH (Shanghai Metro)");
+                break;
+            }
+            case 0x20: {
+                printTag("JCOP 31/41");
+                break;
+            }
+            case 0x28: {
+                printTag("JCOP31 or JCOP41 v2.3.1");
+                break;
+            }
+            case 0x38: {
+                printTag("Nokia 6212 or 6131");
+                break;
+            }
+            case 0x98: {
+                printTag("Gemplus MPCOS");
+                break;
+            }
+            default: {
+                break;
+            }
+            }
+            break;
         }
     }
 
@@ -1919,65 +1919,65 @@ int infoHF14A(bool verbose, bool do_nack_test, bool do_aid_search) {
                 PrintAndLogEx(SUCCESS, "    C1.....................   Mifare or (multiple) virtual cards of various type");
                 PrintAndLogEx(SUCCESS, "       %02x..................   length is " _YELLOW_("%d") " bytes", card.ats[pos + 1], card.ats[pos + 1]);
                 switch (card.ats[pos + 2] & 0xf0) {
-                    case 0x10:
-                        PrintAndLogEx(SUCCESS, "          1x...............   MIFARE DESFire");
-                        isMifareDESFire = true;
-                        isMifareClassic = false;
-                        isMifarePlus = false;
-                        break;
-                    case 0x20:
-                        PrintAndLogEx(SUCCESS, "          2x...............   MIFARE Plus");
-                        isMifarePlus = true;
-                        isMifareDESFire = false;
-                        isMifareClassic = false;
-                        break;
+                case 0x10:
+                    PrintAndLogEx(SUCCESS, "          1x...............   MIFARE DESFire");
+                    isMifareDESFire = true;
+                    isMifareClassic = false;
+                    isMifarePlus = false;
+                    break;
+                case 0x20:
+                    PrintAndLogEx(SUCCESS, "          2x...............   MIFARE Plus");
+                    isMifarePlus = true;
+                    isMifareDESFire = false;
+                    isMifareClassic = false;
+                    break;
                 }
                 switch (card.ats[pos + 2] & 0x0f) {
-                    case 0x00:
-                        PrintAndLogEx(SUCCESS, "          x0...............   < 1 kByte");
-                        break;
-                    case 0x01:
-                        PrintAndLogEx(SUCCESS, "          x1...............   1 kByte");
-                        break;
-                    case 0x02:
-                        PrintAndLogEx(SUCCESS, "          x2...............   2 kByte");
-                        break;
-                    case 0x03:
-                        PrintAndLogEx(SUCCESS, "          x3...............   4 kByte");
-                        break;
-                    case 0x04:
-                        PrintAndLogEx(SUCCESS, "          x4...............   8 kByte");
-                        break;
+                case 0x00:
+                    PrintAndLogEx(SUCCESS, "          x0...............   < 1 kByte");
+                    break;
+                case 0x01:
+                    PrintAndLogEx(SUCCESS, "          x1...............   1 kByte");
+                    break;
+                case 0x02:
+                    PrintAndLogEx(SUCCESS, "          x2...............   2 kByte");
+                    break;
+                case 0x03:
+                    PrintAndLogEx(SUCCESS, "          x3...............   4 kByte");
+                    break;
+                case 0x04:
+                    PrintAndLogEx(SUCCESS, "          x4...............   8 kByte");
+                    break;
                 }
                 switch (card.ats[pos + 3] & 0xf0) {
-                    case 0x00:
-                        PrintAndLogEx(SUCCESS, "             0x............   Engineering sample");
-                        break;
-                    case 0x20:
-                        PrintAndLogEx(SUCCESS, "             2x............   Released");
-                        break;
+                case 0x00:
+                    PrintAndLogEx(SUCCESS, "             0x............   Engineering sample");
+                    break;
+                case 0x20:
+                    PrintAndLogEx(SUCCESS, "             2x............   Released");
+                    break;
                 }
                 switch (card.ats[pos + 3] & 0x0f) {
-                    case 0x00:
-                        PrintAndLogEx(SUCCESS, "             x0............   Generation 1");
-                        break;
-                    case 0x01:
-                        PrintAndLogEx(SUCCESS, "             x1............   Generation 2");
-                        break;
-                    case 0x02:
-                        PrintAndLogEx(SUCCESS, "             x2............   Generation 3");
-                        break;
+                case 0x00:
+                    PrintAndLogEx(SUCCESS, "             x0............   Generation 1");
+                    break;
+                case 0x01:
+                    PrintAndLogEx(SUCCESS, "             x1............   Generation 2");
+                    break;
+                case 0x02:
+                    PrintAndLogEx(SUCCESS, "             x2............   Generation 3");
+                    break;
                 }
                 switch (card.ats[pos + 4] & 0x0f) {
-                    case 0x00:
-                        PrintAndLogEx(SUCCESS, "                x0.........   Only VCSL supported");
-                        break;
-                    case 0x01:
-                        PrintAndLogEx(SUCCESS, "                x1.........   VCS, VCSL, and SVC supported");
-                        break;
-                    case 0x0E:
-                        PrintAndLogEx(SUCCESS, "                xE.........   no VCS command supported");
-                        break;
+                case 0x00:
+                    PrintAndLogEx(SUCCESS, "                x0.........   Only VCSL supported");
+                    break;
+                case 0x01:
+                    PrintAndLogEx(SUCCESS, "                x1.........   VCS, VCSL, and SVC supported");
+                    break;
+                case 0x0E:
+                    PrintAndLogEx(SUCCESS, "                xE.........   no VCS command supported");
+                    break;
                 }
             } else {
                 PrintAndLogEx(SUCCESS, "   %s", sprint_hex_inrow(card.ats + pos, calen));

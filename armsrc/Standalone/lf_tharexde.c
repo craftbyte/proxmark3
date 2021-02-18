@@ -155,14 +155,14 @@ void RunMod(void) {
         if (button_pressed == BUTTON_SINGLE_CLICK) {
 
             switch (state) {
-                case STATE_SIM:
-                    state = STATE_READ;
-                    break;
-                case STATE_READ:
-                    state = STATE_SIM;
-                    break;
-                default:
-                    break;
+            case STATE_SIM:
+                state = STATE_READ;
+                break;
+            case STATE_READ:
+                state = STATE_SIM;
+                break;
+            default:
+                break;
             }
 
             state_change = true;

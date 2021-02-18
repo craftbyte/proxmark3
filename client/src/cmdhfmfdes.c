@@ -214,126 +214,126 @@ typedef enum {
 
 static const char *cluster_to_text(uint8_t cluster) {
     switch (cluster) {
-        case CL_ADMIN:
-            return "card administration";
-        case CL_MISC1:
-        case CL_MISC2:
-        case CL_MISC3:
-        case CL_MISC4:
-        case CL_MISC5:
-        case CL_MISC6:
-        case CL_MISC7:
-            return "miscellaneous applications";
-        case CL_AIRLINES:
-            return "airlines";
-        case CL_FERRY:
-            return "ferry traffic";
-        case CL_RAIL:
-            return "railway services";
-        case CL_MISC:
-            return "miscellaneous applications";
-        case CL_TRANSPORT:
-            return "transport";
-        case CL_SECURITY:
-            return "security solutions";
-        case CL_CITYTRAFFIC:
-            return "city traffic";
-        case CL_CZECH_RAIL:
-            return "Czech Railways";
-        case CL_BUS:
-            return "bus services";
-        case CL_MMT:
-            return "multi modal transit";
-        case CL_TAXI:
-            return "taxi";
-        case CL_TOLL:
-            return "road toll";
-        case CL_GENERIC_TRANS:
-            return "generic transport";
-        case CL_COMPANY_SERVICES:
-            return "company services";
-        case CL_CITYCARD:
-            return "city card services";
-        case CL_ACCESS_CONTROL_1:
-        case CL_ACCESS_CONTROL_2:
-            return "access control & security";
-        case CL_VIGIK:
-            return "VIGIK";
-        case CL_NED_DEFENCE:
-            return "Ministry of Defence, Netherlands";
-        case CL_BOSCH_TELECOM:
-            return "Bosch Telecom, Germany";
-        case CL_EU:
-            return "European Union Institutions";
-        case CL_SKI_TICKET:
-            return "ski ticketing";
-        case CL_SOAA:
-            return "SOAA standard for offline access standard";
-        case CL_ACCESS2:
-            return "access control & security";
-        case CL_FOOD:
-            return "food";
-        case CL_NONFOOD:
-            return "non-food trade";
-        case CL_HOTEL:
-            return "hotel";
-        case CL_LOYALTY:
-            return "loyalty";
-        case CL_AIRPORT:
-            return "airport services";
-        case CL_CAR_RENTAL:
-            return "car rental";
-        case CL_NED_GOV:
-            return "Dutch government";
-        case CL_ADMIN2:
-            return "administration services";
-        case CL_PURSE:
-            return "electronic purse";
-        case CL_TV:
-            return "television";
-        case CL_CRUISESHIP:
-            return "cruise ship";
-        case CL_IOPTA:
-            return "IOPTA";
-        case CL_METERING:
-            return "metering";
-        case CL_TELEPHONE:
-            return "telephone";
-        case CL_HEALTH:
-            return "health services";
-        case CL_WAREHOUSE:
-            return "warehouse";
-        case CL_BANKING:
-            return "banking";
-        case CL_ENTERTAIN:
-            return "entertainment & sports";
-        case CL_PARKING:
-            return "car parking";
-        case CL_FLEET:
-            return "fleet management";
-        case CL_FUEL:
-            return "fuel, gasoline";
-        case CL_INFO:
-            return "info services";
-        case CL_PRESS:
-            return "press";
-        case CL_NFC:
-            return "NFC Forum";
-        case CL_COMPUTER:
-            return "computer";
-        case CL_MAIL:
-            return "mail";
-        case CL_AMISC:
-        case CL_AMISC1:
-        case CL_AMISC2:
-        case CL_AMISC3:
-        case CL_AMISC4:
-        case CL_AMISC5:
-        case CL_AMISC6:
-        case CL_AMISC7:
-            return "miscellaneous applications";
-        default:
-            break;
+    case CL_ADMIN:
+        return "card administration";
+    case CL_MISC1:
+    case CL_MISC2:
+    case CL_MISC3:
+    case CL_MISC4:
+    case CL_MISC5:
+    case CL_MISC6:
+    case CL_MISC7:
+        return "miscellaneous applications";
+    case CL_AIRLINES:
+        return "airlines";
+    case CL_FERRY:
+        return "ferry traffic";
+    case CL_RAIL:
+        return "railway services";
+    case CL_MISC:
+        return "miscellaneous applications";
+    case CL_TRANSPORT:
+        return "transport";
+    case CL_SECURITY:
+        return "security solutions";
+    case CL_CITYTRAFFIC:
+        return "city traffic";
+    case CL_CZECH_RAIL:
+        return "Czech Railways";
+    case CL_BUS:
+        return "bus services";
+    case CL_MMT:
+        return "multi modal transit";
+    case CL_TAXI:
+        return "taxi";
+    case CL_TOLL:
+        return "road toll";
+    case CL_GENERIC_TRANS:
+        return "generic transport";
+    case CL_COMPANY_SERVICES:
+        return "company services";
+    case CL_CITYCARD:
+        return "city card services";
+    case CL_ACCESS_CONTROL_1:
+    case CL_ACCESS_CONTROL_2:
+        return "access control & security";
+    case CL_VIGIK:
+        return "VIGIK";
+    case CL_NED_DEFENCE:
+        return "Ministry of Defence, Netherlands";
+    case CL_BOSCH_TELECOM:
+        return "Bosch Telecom, Germany";
+    case CL_EU:
+        return "European Union Institutions";
+    case CL_SKI_TICKET:
+        return "ski ticketing";
+    case CL_SOAA:
+        return "SOAA standard for offline access standard";
+    case CL_ACCESS2:
+        return "access control & security";
+    case CL_FOOD:
+        return "food";
+    case CL_NONFOOD:
+        return "non-food trade";
+    case CL_HOTEL:
+        return "hotel";
+    case CL_LOYALTY:
+        return "loyalty";
+    case CL_AIRPORT:
+        return "airport services";
+    case CL_CAR_RENTAL:
+        return "car rental";
+    case CL_NED_GOV:
+        return "Dutch government";
+    case CL_ADMIN2:
+        return "administration services";
+    case CL_PURSE:
+        return "electronic purse";
+    case CL_TV:
+        return "television";
+    case CL_CRUISESHIP:
+        return "cruise ship";
+    case CL_IOPTA:
+        return "IOPTA";
+    case CL_METERING:
+        return "metering";
+    case CL_TELEPHONE:
+        return "telephone";
+    case CL_HEALTH:
+        return "health services";
+    case CL_WAREHOUSE:
+        return "warehouse";
+    case CL_BANKING:
+        return "banking";
+    case CL_ENTERTAIN:
+        return "entertainment & sports";
+    case CL_PARKING:
+        return "car parking";
+    case CL_FLEET:
+        return "fleet management";
+    case CL_FUEL:
+        return "fuel, gasoline";
+    case CL_INFO:
+        return "info services";
+    case CL_PRESS:
+        return "press";
+    case CL_NFC:
+        return "NFC Forum";
+    case CL_COMPUTER:
+        return "computer";
+    case CL_MAIL:
+        return "mail";
+    case CL_AMISC:
+    case CL_AMISC1:
+    case CL_AMISC2:
+    case CL_AMISC3:
+    case CL_AMISC4:
+    case CL_AMISC5:
+    case CL_AMISC6:
+    case CL_AMISC7:
+        return "miscellaneous applications";
+    default:
+        break;
     }
     return "reserved";
 }
@@ -367,16 +367,16 @@ static int CmdHelp(const char *Cmd);
 
 static const char *getEncryptionAlgoStr(uint8_t algo) {
     switch (algo) {
-        case MFDES_ALGO_AES :
-            return "AES";
-        case MFDES_ALGO_3DES :
-            return "3DES";
-        case MFDES_ALGO_DES :
-            return "DES";
-        case MFDES_ALGO_3K3DES :
-            return "3K3DES";
-        default :
-            return "";
+    case MFDES_ALGO_AES :
+        return "AES";
+    case MFDES_ALGO_3DES :
+        return "3DES";
+    case MFDES_ALGO_DES :
+        return "DES";
+    case MFDES_ALGO_3K3DES :
+        return "3K3DES";
+    default :
+        return "";
     }
 }
 /*
@@ -512,64 +512,64 @@ static const char *getstatus(uint16_t *sw) {
     if (sw == NULL) return "--> sw argument error. This should never happen !";
     if (((*sw >> 8) & 0xFF) == 0x91) {
         switch (*sw & 0xFF) {
-            case MFDES_E_OUT_OF_EEPROM:
-                return "Out of Eeprom, insufficient NV-Memory to complete command";
-            case MFDES_E_ILLEGAL_COMMAND_CODE:
-                return "Command code not supported";
+        case MFDES_E_OUT_OF_EEPROM:
+            return "Out of Eeprom, insufficient NV-Memory to complete command";
+        case MFDES_E_ILLEGAL_COMMAND_CODE:
+            return "Command code not supported";
 
-            case MFDES_E_INTEGRITY_ERROR:
-                return "CRC or MAC does not match data / Padding bytes invalid";
+        case MFDES_E_INTEGRITY_ERROR:
+            return "CRC or MAC does not match data / Padding bytes invalid";
 
-            case MFDES_E_NO_SUCH_KEY:
-                return "Invalid key number specified";
+        case MFDES_E_NO_SUCH_KEY:
+            return "Invalid key number specified";
 
-            case MFDES_E_LENGTH:
-                return "Length of command string invalid";
+        case MFDES_E_LENGTH:
+            return "Length of command string invalid";
 
-            case MFDES_E_PERMISSION_DENIED:
-                return "Current configuration/status does not allow the requested command";
+        case MFDES_E_PERMISSION_DENIED:
+            return "Current configuration/status does not allow the requested command";
 
-            case MFDES_E_PARAMETER_ERROR:
-                return "Value of the parameter(s) invalid";
+        case MFDES_E_PARAMETER_ERROR:
+            return "Value of the parameter(s) invalid";
 
-            case MFDES_E_APPLICATION_NOT_FOUND:
-                return "Requested AID not present on PICC";
+        case MFDES_E_APPLICATION_NOT_FOUND:
+            return "Requested AID not present on PICC";
 
-            case MFDES_E_APPL_INTEGRITY:
-                return "Application integrity error, application will be disabled";
+        case MFDES_E_APPL_INTEGRITY:
+            return "Application integrity error, application will be disabled";
 
-            case MFDES_E_AUTHENTIFICATION_ERROR:
-                return "Current authentication status does not allow the requested command";
+        case MFDES_E_AUTHENTIFICATION_ERROR:
+            return "Current authentication status does not allow the requested command";
 
-            case MFDES_E_BOUNDARY:
-                return "Attempted to read/write data from/to beyond the file's/record's limit";
+        case MFDES_E_BOUNDARY:
+            return "Attempted to read/write data from/to beyond the file's/record's limit";
 
-            case MFDES_E_PICC_INTEGRITY:
-                return "PICC integrity error, PICC will be disabled";
+        case MFDES_E_PICC_INTEGRITY:
+            return "PICC integrity error, PICC will be disabled";
 
-            case MFDES_E_COMMAND_ABORTED:
-                return "Previous command was not fully completed / Not all Frames were requested or provided by the PCD";
+        case MFDES_E_COMMAND_ABORTED:
+            return "Previous command was not fully completed / Not all Frames were requested or provided by the PCD";
 
-            case MFDES_E_PICC_DISABLED:
-                return "PICC was disabled by an unrecoverable error";
+        case MFDES_E_PICC_DISABLED:
+            return "PICC was disabled by an unrecoverable error";
 
-            case MFDES_E_COUNT:
-                return "Application count is limited to 28, not addition CreateApplication possible";
+        case MFDES_E_COUNT:
+            return "Application count is limited to 28, not addition CreateApplication possible";
 
-            case MFDES_E_DUPLICATE:
-                return "Duplicate entry: File/Application/ISO Text does already exist";
+        case MFDES_E_DUPLICATE:
+            return "Duplicate entry: File/Application/ISO Text does already exist";
 
-            case MFDES_E_EEPROM:
-                return "Eeprom error due to loss of power, internal backup/rollback mechanism activated";
+        case MFDES_E_EEPROM:
+            return "Eeprom error due to loss of power, internal backup/rollback mechanism activated";
 
-            case MFDES_E_FILE_NOT_FOUND:
-                return "Specified file number does not exist";
+        case MFDES_E_FILE_NOT_FOUND:
+            return "Specified file number does not exist";
 
-            case MFDES_E_FILE_INTEGRITY:
-                return "File integrity error, file will be disabled";
+        case MFDES_E_FILE_INTEGRITY:
+            return "File integrity error, file will be disabled";
 
-            default:
-                return "Unknown error";
+        default:
+            return "Unknown error";
         }
     }
     return "Unknown error";
@@ -577,52 +577,52 @@ static const char *getstatus(uint16_t *sw) {
 
 static const char *GetErrorString(int res, uint16_t *sw) {
     switch (res) {
-        case PM3_EAPDU_FAIL:
-            return getstatus(sw);
-        case PM3_EUNDEF:
-            return "Undefined error";
-        case PM3_EINVARG:
-            return "Invalid argument(s)";
-        case PM3_EDEVNOTSUPP:
-            return "Operation not supported by device";
-        case PM3_ETIMEOUT:
-            return "Operation timed out";
-        case PM3_EOPABORTED:
-            return "Operation aborted (by user)";
-        case PM3_ENOTIMPL:
-            return "Not (yet) implemented";
-        case PM3_ERFTRANS:
-            return "Error while RF transmission";
-        case PM3_EIO:
-            return "Input / output error";
-        case PM3_EOVFLOW:
-            return "Buffer overflow";
-        case PM3_ESOFT:
-            return "Software error";
-        case PM3_EFLASH:
-            return "Flash error";
-        case PM3_EMALLOC:
-            return "Memory allocation error";
-        case PM3_EFILE:
-            return "File error";
-        case PM3_ENOTTY:
-            return "Generic TTY error";
-        case PM3_EINIT:
-            return "Initialization error";
-        case PM3_EWRONGANSWER:
-            return "Expected a different answer error";
-        case PM3_EOUTOFBOUND:
-            return "Memory out-of-bounds error";
-        case PM3_ECARDEXCHANGE:
-            return "Exchange with card error";
-        case PM3_EAPDU_ENCODEFAIL:
-            return "Failed to create APDU";
-        case PM3_ENODATA:
-            return "No data";
-        case PM3_EFATAL:
-            return "Fatal error";
-        default:
-            break;
+    case PM3_EAPDU_FAIL:
+        return getstatus(sw);
+    case PM3_EUNDEF:
+        return "Undefined error";
+    case PM3_EINVARG:
+        return "Invalid argument(s)";
+    case PM3_EDEVNOTSUPP:
+        return "Operation not supported by device";
+    case PM3_ETIMEOUT:
+        return "Operation timed out";
+    case PM3_EOPABORTED:
+        return "Operation aborted (by user)";
+    case PM3_ENOTIMPL:
+        return "Not (yet) implemented";
+    case PM3_ERFTRANS:
+        return "Error while RF transmission";
+    case PM3_EIO:
+        return "Input / output error";
+    case PM3_EOVFLOW:
+        return "Buffer overflow";
+    case PM3_ESOFT:
+        return "Software error";
+    case PM3_EFLASH:
+        return "Flash error";
+    case PM3_EMALLOC:
+        return "Memory allocation error";
+    case PM3_EFILE:
+        return "File error";
+    case PM3_ENOTTY:
+        return "Generic TTY error";
+    case PM3_EINIT:
+        return "Initialization error";
+    case PM3_EWRONGANSWER:
+        return "Expected a different answer error";
+    case PM3_EOUTOFBOUND:
+        return "Memory out-of-bounds error";
+    case PM3_ECARDEXCHANGE:
+        return "Exchange with card error";
+    case PM3_EAPDU_ENCODEFAIL:
+        return "Failed to create APDU";
+    case PM3_ENODATA:
+        return "No data";
+    case PM3_EFATAL:
+        return "Fatal error";
+    default:
+        break;
     }
     return "";
 }
@@ -728,16 +728,16 @@ static int mfdes_get_info(mfdes_info_res_t *info) {
 
     if (resp.status != PM3_SUCCESS) {
         switch (info->isOK) {
-            case 1:
-                PrintAndLogEx(WARNING, "Can't select card");
-                break;
-            case 2:
-                PrintAndLogEx(WARNING, "Card is most likely not DESFire. Wrong size UID");
-                break;
-            case 3:
-            default:
-                PrintAndLogEx(WARNING, _RED_("Command unsuccessful"));
-                break;
+        case 1:
+            PrintAndLogEx(WARNING, "Can't select card");
+            break;
+        case 2:
+            PrintAndLogEx(WARNING, "Card is most likely not DESFire. Wrong size UID");
+            break;
+        case 3:
+        default:
+            PrintAndLogEx(WARNING, _RED_("Command unsuccessful"));
+            break;
         }
         return PM3_ESOFT;
     }
@@ -1027,41 +1027,41 @@ static int handler_desfire_auth(mfdes_authinput_t *payload, mfdes_auth_res_t *rp
 
 static void AuthToError(int error) {
     switch (error) {
-        case 1:
-            PrintAndLogEx(SUCCESS, "Sending auth command failed");
-            break;
-        case 2:
-            PrintAndLogEx(ERR, "Authentication failed. No data received");
-            break;
-        case 3:
-            PrintAndLogEx(ERR, "Authentication failed. Invalid key number.");
-            break;
-        case 4:
-            PrintAndLogEx(ERR, "Authentication failed. Length of answer doesn't match algo length");
-            break;
-        case 5:
-            PrintAndLogEx(ERR, "mbedtls_aes_setkey_dec failed");
-            break;
-        case 6:
-            PrintAndLogEx(ERR, "mbedtls_aes_setkey_enc failed");
-            break;
-        case 7:
-            PrintAndLogEx(SUCCESS, "Sending auth command failed");
-            break;
-        case 8:
-            PrintAndLogEx(ERR, "Authentication failed. Card timeout.");
-            break;
-        case 9:
-            PrintAndLogEx(ERR, "Authentication failed.");
-            break;
-        case 10:
-            PrintAndLogEx(ERR, "mbedtls_aes_setkey_dec failed");
-            break;
-        case 11:
-            PrintAndLogEx(ERR, "Authentication failed. Cannot verify Session Key.");
-            break;
-        default:
-            break;
+    case 1:
+        PrintAndLogEx(SUCCESS, "Sending auth command failed");
+        break;
+    case 2:
+        PrintAndLogEx(ERR, "Authentication failed. No data received");
+        break;
+    case 3:
+        PrintAndLogEx(ERR, "Authentication failed. Invalid key number.");
+        break;
+    case 4:
+        PrintAndLogEx(ERR, "Authentication failed. Length of answer doesn't match algo length");
+        break;
+    case 5:
+        PrintAndLogEx(ERR, "mbedtls_aes_setkey_dec failed");
+        break;
+    case 6:
+        PrintAndLogEx(ERR, "mbedtls_aes_setkey_enc failed");
+        break;
+    case 7:
+        PrintAndLogEx(SUCCESS, "Sending auth command failed");
+        break;
+    case 8:
+        PrintAndLogEx(ERR, "Authentication failed. Card timeout.");
+        break;
+    case 9:
+        PrintAndLogEx(ERR, "Authentication failed.");
+        break;
+    case 10:
+        PrintAndLogEx(ERR, "mbedtls_aes_setkey_dec failed");
+        break;
+    case 11:
+        PrintAndLogEx(ERR, "Authentication failed. Cannot verify Session Key.");
+        break;
+    default:
+        break;
     }
 }
 
@@ -1166,15 +1166,15 @@ static int mifare_desfire_change_key(uint8_t key_no, uint8_t *new_key, uint8_t n
 
         // PICC master key, keyalgo specific 2bit MSB
         switch (new_algo) {
-            case MFDES_ALGO_DES:
-            case MFDES_ALGO_3DES:
-                break;            // 00xx xxx
-            case MFDES_ALGO_3K3DES:
-                key_no |= 0x40;   // 01xx xxx
-                break;
-            case MFDES_ALGO_AES:
-                key_no |= 0x80;   // 10xx xxx
-                break;
+        case MFDES_ALGO_DES:
+        case MFDES_ALGO_3DES:
+            break;            // 00xx xxx
+        case MFDES_ALGO_3K3DES:
+            key_no |= 0x40;   // 01xx xxx
+            break;
+        case MFDES_ALGO_AES:
+            key_no |= 0x80;   // 10xx xxx
+            break;
         }
     }
     /*
@@ -1193,20 +1193,20 @@ static int mifare_desfire_change_key(uint8_t key_no, uint8_t *new_key, uint8_t n
 
     uint8_t new_key_length = 16;
     switch (new_algo) {
-        case MFDES_ALGO_DES:
-            // double
-            memcpy(data + cmdcnt + 1, new_key, new_key_length);
-            memcpy(data + cmdcnt + 1 + new_key_length, new_key, new_key_length);
-            break;
-        case MFDES_ALGO_3DES:
-        case MFDES_ALGO_AES:
-            new_key_length = 16;
-            memcpy(data + cmdcnt + 1, new_key, new_key_length);
-            break;
-        case MFDES_ALGO_3K3DES:
-            new_key_length = 24;
-            memcpy(data + cmdcnt + 1, new_key, new_key_length);
-            break;
+    case MFDES_ALGO_DES:
+        // double
+        memcpy(data + cmdcnt + 1, new_key, new_key_length);
+        memcpy(data + cmdcnt + 1 + new_key_length, new_key, new_key_length);
+        break;
+    case MFDES_ALGO_3DES:
+    case MFDES_ALGO_AES:
+        new_key_length = 16;
+        memcpy(data + cmdcnt + 1, new_key, new_key_length);
+        break;
+    case MFDES_ALGO_3K3DES:
+        new_key_length = 24;
+        memcpy(data + cmdcnt + 1, new_key, new_key_length);
+        break;
     }
 
 
@@ -1229,30 +1229,30 @@ static int mifare_desfire_change_key(uint8_t key_no, uint8_t *new_key, uint8_t n
 
     if ((tag->authenticated_key_no & 0x0f) != (key_no & 0x0f)) {
         switch (tag->authentication_scheme) {
-            case AS_LEGACY:
-                iso14443a_crc_append(data + 1, cmdcnt);
-                cmdcnt += 2;
-                iso14443a_crc(new_key, new_key_length, data + cmdcnt);
-                cmdcnt += 2;
-                break;
-            case AS_NEW:
-                desfire_crc32_append(data + 1, cmdcnt);
-                cmdcnt += 4;
+        case AS_LEGACY:
+            iso14443a_crc_append(data + 1, cmdcnt);
+            cmdcnt += 2;
+            iso14443a_crc(new_key, new_key_length, data + cmdcnt);
+            cmdcnt += 2;
+            break;
+        case AS_NEW:
+            desfire_crc32_append(data + 1, cmdcnt);
+            cmdcnt += 4;
 
-                desfire_crc32(new_key, new_key_length, data + cmdcnt);
-                cmdcnt += 4;
-                break;
+            desfire_crc32(new_key, new_key_length, data + cmdcnt);
+            cmdcnt += 4;
+            break;
         }
     } else {
         switch (tag->authentication_scheme) {
-            case AS_LEGACY:
-                iso14443a_crc_append(data + 1, cmdcnt);
-                cmdcnt += 2;
-                break;
-            case AS_NEW:
-                desfire_crc32_append(data, cmdcnt);
-                cmdcnt += 4;
-                break;
+        case AS_LEGACY:
+            iso14443a_crc_append(data + 1, cmdcnt);
+            cmdcnt += 2;
+            break;
+        case AS_NEW:
+            desfire_crc32_append(data, cmdcnt);
+            cmdcnt += 4;
+            break;
         }
     }
 
@@ -1428,22 +1428,22 @@ static int desfire_print_amk_keysetting(uint8_t key_settings, uint8_t num_keys, 
     // Access rights.
     uint8_t rights = ((key_settings >> 4) & 0x0F);
     switch (rights) {
-        case 0x0:
-            PrintAndLogEx(SUCCESS, "  -- AMK authentication is necessary to change any key (default)");
-            break;
-        case 0xE:
-            PrintAndLogEx(SUCCESS, "  -- Authentication with the key to be changed (same KeyNo) is necessary to change a key");
-            break;
-        case 0xF:
-            PrintAndLogEx(SUCCESS, "  -- All keys (except AMK,see Bit0) within this application are frozen");
-            break;
-        default:
-            PrintAndLogEx(SUCCESS,
-                          "  -- Authentication with the specified key is necessary to change any key.\n"
-                          "A change key and a PICC master key (CMK) can only be changed after authentication with the master key.\n"
-                          "For keys other then the master or change key, an authentication with the same key is needed."
-                         );
-            break;
+    case 0x0:
+        PrintAndLogEx(SUCCESS, "  -- AMK authentication is necessary to change any key (default)");
+        break;
+    case 0xE:
+        PrintAndLogEx(SUCCESS, "  -- Authentication with the key to be changed (same KeyNo) is necessary to change a key");
+        break;
+    case 0xF:
+        PrintAndLogEx(SUCCESS, "  -- All keys (except AMK,see Bit0) within this application are frozen");
+        break;
+    default:
+        PrintAndLogEx(SUCCESS,
+                      "  -- Authentication with the specified key is necessary to change any key.\n"
+                      "A change key and a PICC master key (CMK) can only be changed after authentication with the master key.\n"
+                      "For keys other then the master or change key, an authentication with the same key is needed."
+                     );
+        break;
     }
 
     PrintAndLogEx(SUCCESS, "   [1000] AMK Configuration changeable   : %s", (key_settings & (1 << 3)) ? _GREEN_("YES") : "NO (frozen)");
@@ -1668,15 +1668,15 @@ static int key_setting_to_algo(uint8_t aid[3], uint8_t *key_setting, mifare_des_
     res = handler_desfire_getkeysettings(key_setting, num_keys);
     if (res == PM3_SUCCESS) {
         switch (*num_keys >> 6) {
-            case 0:
-                *algo = MFDES_ALGO_DES;
-                break;
-            case 1:
-                *algo = MFDES_ALGO_3K3DES;
-                break;
-            case 2:
-                *algo = MFDES_ALGO_AES;
-                break;
+        case 0:
+            *algo = MFDES_ALGO_DES;
+            break;
+        case 1:
+            *algo = MFDES_ALGO_3K3DES;
+            break;
+        case 2:
+            *algo = MFDES_ALGO_AES;
+            break;
         }
     }
     return res;
@@ -2153,78 +2153,78 @@ static void swap16(uint8_t *data) {
 
 static int desfire_authenticate(int cmdAuthMode, int cmdAuthAlgo, uint8_t *aid, uint8_t *key, int cmdKeyNo, uint8_t cmdKdfAlgo, uint8_t kdfInputLen, uint8_t *kdfInput, mfdes_auth_res_t *rpayload) {
     switch (cmdAuthMode) {
-        case MFDES_AUTH_DES:
-            if (cmdAuthAlgo != MFDES_ALGO_DES && cmdAuthAlgo != MFDES_ALGO_3DES) {
-                PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth des mode");
-                return PM3_EINVARG;
-            }
-            break;
-        case MFDES_AUTH_ISO:
-            if (cmdAuthAlgo != MFDES_ALGO_3DES && cmdAuthAlgo != MFDES_ALGO_3K3DES) {
-                PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth iso mode");
-                return PM3_EINVARG;
-            }
-            break;
-        case MFDES_AUTH_AES:
-            if (cmdAuthAlgo != MFDES_ALGO_AES) {
-                PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth aes mode");
-                return PM3_EINVARG;
-            }
-            break;
-        case MFDES_AUTH_PICC:
-            if (cmdAuthAlgo != MFDES_AUTH_DES) {
-                PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth picc mode");
-                return PM3_EINVARG;
-            }
-            break;
-        default:
-            PrintAndLogEx(WARNING, "Wrong Auth mode (%d) -> (1=normal, 2=iso, 3=aes)", cmdAuthMode);
+    case MFDES_AUTH_DES:
+        if (cmdAuthAlgo != MFDES_ALGO_DES && cmdAuthAlgo != MFDES_ALGO_3DES) {
+            PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth des mode");
             return PM3_EINVARG;
+        }
+        break;
+    case MFDES_AUTH_ISO:
+        if (cmdAuthAlgo != MFDES_ALGO_3DES && cmdAuthAlgo != MFDES_ALGO_3K3DES) {
+            PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth iso mode");
+            return PM3_EINVARG;
+        }
+        break;
+    case MFDES_AUTH_AES:
+        if (cmdAuthAlgo != MFDES_ALGO_AES) {
+            PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth aes mode");
+            return PM3_EINVARG;
+        }
+        break;
+    case MFDES_AUTH_PICC:
+        if (cmdAuthAlgo != MFDES_AUTH_DES) {
+            PrintAndLogEx(NORMAL, "Crypto algo not valid for the auth picc mode");
+            return PM3_EINVARG;
+        }
+        break;
+    default:
+        PrintAndLogEx(WARNING, "Wrong Auth mode (%d) -> (1=normal, 2=iso, 3=aes)", cmdAuthMode);
+        return PM3_EINVARG;
     }
 
     int keylength = 16;
 
     switch (cmdAuthAlgo) {
-        case MFDES_ALGO_3DES:
-            keylength = 16;
-            break;
-        case MFDES_ALGO_3K3DES:
-            keylength = 24;
-            break;
-        case MFDES_ALGO_AES:
-            keylength = 16;
-            break;
-        default:
-            cmdAuthAlgo = MFDES_ALGO_DES;
-            keylength = 8;
-            break;
+    case MFDES_ALGO_3DES:
+        keylength = 16;
+        break;
+    case MFDES_ALGO_3K3DES:
+        keylength = 24;
+        break;
+    case MFDES_ALGO_AES:
+        keylength = 16;
+        break;
+    default:
+        cmdAuthAlgo = MFDES_ALGO_DES;
+        keylength = 8;
+        break;
     }
 
     switch (cmdKdfAlgo) {
-        case MFDES_KDF_ALGO_AN10922:
-            // TODO: 2TDEA and 3TDEA keys use an input length of 1-15 bytes
-            if (cmdAuthAlgo != MFDES_ALGO_AES) {
-                PrintAndLogEx(FAILED, "Crypto algo not valid for the KDF AN10922 algo.");
-                return PM3_EINVARG;
-            }
-            if (kdfInputLen < 1 || kdfInputLen > 31) {
-                PrintAndLogEx(FAILED, "KDF AN10922 algo requires an input of length 1-31 bytes.");
-                return PM3_EINVARG;
-            }
-            break;
-        case MFDES_KDF_ALGO_GALLAGHER:
-            // TODO: 2TDEA and 3TDEA keys use an input length of 1-15 bytes
-            if (cmdAuthAlgo != MFDES_ALGO_AES) {
-                PrintAndLogEx(FAILED, "Crypto algo not valid for the KDF AN10922 algo.");
-                return PM3_EINVARG;
-            }
-            break;
-        // KDF input arg is ignored as it'll be generated.
-        case MFDES_KDF_ALGO_NONE:
-            break;
-        default:
-            PrintAndLogEx(WARNING, "KDF algo %d is not supported.", cmdKdfAlgo);
+    case MFDES_KDF_ALGO_AN10922:
+        // TODO: 2TDEA and 3TDEA keys use an input length of 1-15 bytes
+        if (cmdAuthAlgo != MFDES_ALGO_AES) {
+            PrintAndLogEx(FAILED, "Crypto algo not valid for the KDF AN10922 algo.");
             return PM3_EINVARG;
+        }
+        if (kdfInputLen < 1 || kdfInputLen > 31) {
+            PrintAndLogEx(FAILED, "KDF AN10922 algo requires an input of length 1-31 bytes.");
+            return PM3_EINVARG;
+        }
+        break;
+    case MFDES_KDF_ALGO_GALLAGHER:
+        // TODO: 2TDEA and 3TDEA keys use an input length of 1-15 bytes
+        if (cmdAuthAlgo != MFDES_ALGO_AES) {
+            PrintAndLogEx(FAILED, "Crypto algo not valid for the KDF AN10922 algo.");
+            return PM3_EINVARG;
+        }
+        break;
+    // KDF input arg is ignored as it'll be generated.
+    case MFDES_KDF_ALGO_NONE:
+        break;
+    default:
+        PrintAndLogEx(WARNING, "KDF algo %d is not supported.", cmdKdfAlgo);
+        return PM3_EINVARG;
     }
 
     // KEY
@@ -3576,41 +3576,41 @@ static int CmdHF14ADesInfo(const char *Cmd) {
 
 static void DecodeFileType(uint8_t filetype) {
     switch (filetype) {
-        case 0x00:
-            PrintAndLogEx(INFO, "     File Type: 0x%02X -> Standard Data File", filetype);
-            break;
-        case 0x01:
-            PrintAndLogEx(INFO, "     File Type: 0x%02X -> Backup Data File", filetype);
-            break;
-        case 0x02:
-            PrintAndLogEx(INFO, "     File Type: 0x%02X -> Value Files with Backup", filetype);
-            break;
-        case 0x03:
-            PrintAndLogEx(INFO, "     File Type: 0x%02X -> Linear Record Files with Backup", filetype);
-            break;
-        case 0x04:
-            PrintAndLogEx(INFO, "     File Type: 0x%02X -> Cyclic Record Files with Backup", filetype);
-            break;
-        default:
-            PrintAndLogEx(INFO, "     File Type: 0x%02X", filetype);
-            break;
+    case 0x00:
+        PrintAndLogEx(INFO, "     File Type: 0x%02X -> Standard Data File", filetype);
+        break;
+    case 0x01:
+        PrintAndLogEx(INFO, "     File Type: 0x%02X -> Backup Data File", filetype);
+        break;
+    case 0x02:
+        PrintAndLogEx(INFO, "     File Type: 0x%02X -> Value Files with Backup", filetype);
+        break;
+    case 0x03:
+        PrintAndLogEx(INFO, "     File Type: 0x%02X -> Linear Record Files with Backup", filetype);
+        break;
+    case 0x04:
+        PrintAndLogEx(INFO, "     File Type: 0x%02X -> Cyclic Record Files with Backup", filetype);
+        break;
+    default:
+        PrintAndLogEx(INFO, "     File Type: 0x%02X", filetype);
+        break;
     }
 }
 
 static void DecodeComSet(uint8_t comset) {
     switch (comset) {
-        case 0x00:
-            PrintAndLogEx(INFO, "     Com.Setting: 0x%02X -> Plain", comset);
-            break;
-        case 0x01:
-            PrintAndLogEx(INFO, "     Com.Setting: 0x%02X -> Plain + MAC", comset);
-            break;
-        case 0x03:
-            PrintAndLogEx(INFO, "     Com.Setting: 0x%02X -> Enciphered", comset);
-            break;
-        default:
-            PrintAndLogEx(INFO, "     Com.Setting: 0x%02X", comset);
-            break;
+    case 0x00:
+        PrintAndLogEx(INFO, "     Com.Setting: 0x%02X -> Plain", comset);
+        break;
+    case 0x01:
+        PrintAndLogEx(INFO, "     Com.Setting: 0x%02X -> Plain + MAC", comset);
+        break;
+    case 0x03:
+        PrintAndLogEx(INFO, "     Com.Setting: 0x%02X -> Enciphered", comset);
+        break;
+    default:
+        PrintAndLogEx(INFO, "     Com.Setting: 0x%02X", comset);
+        break;
     }
 }
 
@@ -3621,15 +3621,15 @@ static char *DecodeAccessValue(uint8_t value) {
         return NULL;
 
     switch (value) {
-        case 0xE:
-            strcat(car, "(Free Access)");
-            break;
-        case 0xF:
-            strcat(car, "(Denied Access)");
-            break;
-        default:
-            snprintf(car, 255, "(Access Key: %d)", value);
-            break;
+    case 0xE:
+        strcat(car, "(Free Access)");
+        break;
+    case 0xF:
+        strcat(car, "(Denied Access)");
+        break;
+    default:
+        snprintf(car, 255, "(Access Key: %d)", value);
+        break;
     }
     return car;
 }
@@ -4355,18 +4355,18 @@ static int AuthCheckDesfire(uint8_t *aid,
 
                     if (res == PM3_SUCCESS) {
                         switch (num_keys >> 6) {
-                            case 0:
-                                des = true;
-                                tdes = true;
-                                break;
-                            case 1:
-                                k3kdes = true;
-                                break;
-                            case 2:
-                                aes = true;
-                                break;
-                            default:
-                                break;
+                        case 0:
+                            des = true;
+                            tdes = true;
+                            break;
+                        case 1:
+                            k3kdes = true;
+                            break;
+                        case 2:
+                            aes = true;
+                            break;
+                        default:
+                            break;
                         }
                     }
                 }

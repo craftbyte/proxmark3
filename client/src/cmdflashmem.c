@@ -78,7 +78,7 @@ static int CmdHelp(const char *Cmd);
     "A74206CEC169D74BF5A8C50D6F48EA08"
 
 int rdv4_get_signature(rdv40_validation_t *out) {
-    if (out == NULL) {        
+    if (out == NULL) {
         return PM3_EINVARG;
     }
 
@@ -125,7 +125,7 @@ int rdv4_validate(rdv40_validation_t *mem) {
     return PM3_EFAILED;
 }
 
-static int rdv4_sign_write(uint8_t *signature, uint8_t slen){
+static int rdv4_sign_write(uint8_t *signature, uint8_t slen) {
     // save to mem
     clearCommandBuffer();
     PacketResponseNG resp;
@@ -229,64 +229,64 @@ static int CmdFlashMemLoad(const char *Cmd) {
     uint8_t *data = calloc(FLASH_MEM_MAX_SIZE, sizeof(uint8_t));
 
     switch (d) {
-        case DICTIONARY_MIFARE:
-            offset = DEFAULT_MF_KEYS_OFFSET;
-            res = loadFileDICTIONARY(filename, data + 2, &datalen, 6, &keycount);
-            if (res || !keycount) {
-                free(data);
-                return PM3_EFILE;
-            }
-            // limited space on flash mem
-            if (keycount > 0xFFFF)
-                keycount &= 0xFFFF;
+    case DICTIONARY_MIFARE:
+        offset = DEFAULT_MF_KEYS_OFFSET;
+        res = loadFileDICTIONARY(filename, data + 2, &datalen, 6, &keycount);
+        if (res || !keycount) {
+            free(data);
+            return PM3_EFILE;
+        }
+        // limited space on flash mem
+        if (keycount > 0xFFFF)
+            keycount &= 0xFFFF;
 
-            data[0] = (keycount >> 0) & 0xFF;
-            data[1] = (keycount >> 8) & 0xFF;
-            datalen += 2;
-            break;
-        case DICTIONARY_T55XX:
-            offset = DEFAULT_T55XX_KEYS_OFFSET;
-            res = loadFileDICTIONARY(filename, data + 2, &datalen, 4, &keycount);
-            if (res || !keycount) {
-                free(data);
-                return PM3_EFILE;
-            }
-            // limited space on flash mem
-            if (keycount > 0xFFFF)
-                keycount &= 0xFFFF;
+        data[0] = (keycount >> 0) & 0xFF;
+        data[1] = (keycount >> 8) & 0xFF;
+        datalen += 2;
+        break;
+    case DICTIONARY_T55XX:
+        offset = DEFAULT_T55XX_KEYS_OFFSET;
+        res = loadFileDICTIONARY(filename, data + 2, &datalen, 4, &keycount);
+        if (res || !keycount) {
+            free(data);
+            return PM3_EFILE;
+        }
+        // limited space on flash mem
+        if (keycount > 0xFFFF)
+            keycount &= 0xFFFF;
 
-            data[0] = (keycount >> 0) & 0xFF;
-            data[1] = (keycount >> 8) & 0xFF;
-            datalen += 2;
-            break;
-        case DICTIONARY_ICLASS:
-            offset = DEFAULT_ICLASS_KEYS_OFFSET;
-            res = loadFileDICTIONARY(filename, data + 2, &datalen, 8, &keycount);
-            if (res || !keycount) {
-                free(data);
-                return PM3_EFILE;
-            }
-            // limited space on flash mem
-            if (keycount > 0xFFFF)
-                keycount &= 0xFFFF;
+        data[0] = (keycount >> 0) & 0xFF;
+        data[1] = (keycount >> 8) & 0xFF;
+        datalen += 2;
+        break;
+    case DICTIONARY_ICLASS:
+        offset = DEFAULT_ICLASS_KEYS_OFFSET;
+        res = loadFileDICTIONARY(filename, data + 2, &datalen, 8, &keycount);
+        if (res || !keycount) {
+            free(data);
+            return PM3_EFILE;
+        }
+        // limited space on flash mem
+        if (keycount > 0xFFFF)
+            keycount &= 0xFFFF;
 
-            data[0] = (keycount >> 0) & 0xFF;
-            data[1] = (keycount >> 8) & 0xFF;
-            datalen += 2;
-            break;
-        case DICTIONARY_NONE:
-            res = loadFile_safe(filename, ".bin", (void **)&data, &datalen);
-            if (res != PM3_SUCCESS) {
-                free(data);
-                return PM3_EFILE;
-            }
+        data[0] = (keycount >> 0) & 0xFF;
+        data[1] = (keycount >> 8) & 0xFF;
+        datalen += 2;
+        break;
+    case DICTIONARY_NONE:
+        res = loadFile_safe(filename, ".bin", (void **)&data, &datalen);
+        if (res != PM3_SUCCESS) {
+            free(data);
+            return PM3_EFILE;
+        }
 
-            if (datalen > FLASH_MEM_MAX_SIZE) {
-                PrintAndLogEx(ERR, "error, filesize is larger than available memory");
-                free(data);
-                return PM3_EOVFLOW;
-            }
-            break;
+        if (datalen > FLASH_MEM_MAX_SIZE) {
+            PrintAndLogEx(ERR, "error, filesize is larger than available memory");
+            free(data);
+            return PM3_EOVFLOW;
+        }
+        break;
     }
 // not needed when we transite to loadxxxx_safe methods.(iceman)
     uint8_t *newdata = realloc(data, datalen);
@@ -464,7 +464,7 @@ static int CmdFlashMemInfo(const char *Cmd) {
     // validate signature data
     rdv40_validation_t mem;
     int res = rdv4_get_signature(&mem);
-    if (res != PM3_SUCCESS) {        
+    if (res != PM3_SUCCESS) {
         return res;
     }
 
@@ -490,7 +490,7 @@ static int CmdFlashMemInfo(const char *Cmd) {
 
     rsa.len = RRG_RSA_KEY_LEN;
 
-    // add public key 
+    // add public key
     mbedtls_mpi_read_string(&rsa.N, 16, RRG_RSA_N);
     mbedtls_mpi_read_string(&rsa.E, 16, RRG_RSA_E);
 
@@ -544,7 +544,7 @@ static int CmdFlashMemInfo(const char *Cmd) {
             "RSA signing.......... ( %s )",
             (is_signed == 0) ?  _GREEN_("ok") : _RED_("fail")
         );
-        
+
         if (shall_write) {
             rdv4_sign_write(sign, RRG_RSA_KEY_LEN);
         }

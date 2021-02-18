@@ -501,31 +501,31 @@ static void decode_print_st(uint16_t blockno, uint8_t *data) {
 
 static uint16_t NumOfBlocks(char card) {
     switch (card) {
-        case '0' :
-            return MIFARE_MINI_MAXBLOCK;
-        case '1' :
-            return MIFARE_1K_MAXBLOCK;
-        case '2' :
-            return MIFARE_2K_MAXBLOCK;
-        case '4' :
-            return MIFARE_4K_MAXBLOCK;
-        default  :
-            return 0;
+    case '0' :
+        return MIFARE_MINI_MAXBLOCK;
+    case '1' :
+        return MIFARE_1K_MAXBLOCK;
+    case '2' :
+        return MIFARE_2K_MAXBLOCK;
+    case '4' :
+        return MIFARE_4K_MAXBLOCK;
+    default  :
+        return 0;
     }
 }
 
 static uint8_t NumOfSectors(char card) {
     switch (card) {
-        case '0' :
-            return MIFARE_MINI_MAXSECTOR;
-        case '1' :
-            return MIFARE_1K_MAXSECTOR;
-        case '2' :
-            return MIFARE_2K_MAXSECTOR;
-        case '4' :
-            return MIFARE_4K_MAXSECTOR;
-        default  :
-            return 0;
+    case '0' :
+        return MIFARE_MINI_MAXSECTOR;
+    case '1' :
+        return MIFARE_1K_MAXSECTOR;
+    case '2' :
+        return MIFARE_2K_MAXSECTOR;
+    case '4' :
+        return MIFARE_4K_MAXSECTOR;
+    default  :
+        return 0;
     }
 }
 
@@ -554,16 +554,16 @@ static uint8_t GetSectorFromBlockNo(uint8_t blockNo) {
 
 static char GetFormatFromSector(uint8_t sectorNo) {
     switch (sectorNo) {
-        case MIFARE_MINI_MAXSECTOR:
-            return '0';
-        case MIFARE_1K_MAXSECTOR:
-            return '1';
-        case MIFARE_2K_MAXSECTOR:
-            return '2';
-        case MIFARE_4K_MAXSECTOR:
-            return '4';
-        default  :
-            return ' ';
+    case MIFARE_MINI_MAXSECTOR:
+        return '0';
+    case MIFARE_1K_MAXSECTOR:
+        return '1';
+    case MIFARE_2K_MAXSECTOR:
+        return '2';
+    case MIFARE_4K_MAXSECTOR:
+        return '4';
+    default  :
+        return ' ';
     }
 }
 
@@ -599,25 +599,25 @@ static int CmdHF14AMfDarkside(const char *Cmd) {
     int isOK = mfDarkside(blockno, key_type, &key);
     PrintAndLogEx(NORMAL, "");
     switch (isOK) {
-        case -1 :
-            PrintAndLogEx(WARNING, "button pressed. Aborted.");
-            return PM3_ESOFT;
-        case -2 :
-            PrintAndLogEx(FAILED, "card is not vulnerable to Darkside attack (doesn't send NACK on authentication requests).");
-            return PM3_ESOFT;
-        case -3 :
-            PrintAndLogEx(FAILED, "card is not vulnerable to Darkside attack (its random number generator is not predictable).");
-            return PM3_ESOFT;
-        case -4 :
-            PrintAndLogEx(FAILED, "card is not vulnerable to Darkside attack (its random number generator seems to be based on the wellknown");
-            PrintAndLogEx(FAILED, "generating polynomial with 16 effective bits only, but shows unexpected behaviour.");
-            return PM3_ESOFT;
-        case -5 :
-            PrintAndLogEx(WARNING, "aborted via keyboard.");
-            return PM3_ESOFT;
-        default :
-            PrintAndLogEx(SUCCESS, "found valid key: "_YELLOW_("%012" PRIx64), key);
-            break;
+    case -1 :
+        PrintAndLogEx(WARNING, "button pressed. Aborted.");
+        return PM3_ESOFT;
+    case -2 :
+        PrintAndLogEx(FAILED, "card is not vulnerable to Darkside attack (doesn't send NACK on authentication requests).");
+        return PM3_ESOFT;
+    case -3 :
+        PrintAndLogEx(FAILED, "card is not vulnerable to Darkside attack (its random number generator is not predictable).");
+        return PM3_ESOFT;
+    case -4 :
+        PrintAndLogEx(FAILED, "card is not vulnerable to Darkside attack (its random number generator seems to be based on the wellknown");
+        PrintAndLogEx(FAILED, "generating polynomial with 16 effective bits only, but shows unexpected behaviour.");
+        return PM3_ESOFT;
+    case -5 :
+        PrintAndLogEx(WARNING, "aborted via keyboard.");
+        return PM3_ESOFT;
+    default :
+        PrintAndLogEx(SUCCESS, "found valid key: "_YELLOW_("%012" PRIx64), key);
+        break;
     }
     PrintAndLogEx(NORMAL, "");
     return PM3_SUCCESS;
@@ -1105,33 +1105,33 @@ static int CmdHF14AMfRestore(const char *Cmd) {
 
     while (param_getchar(Cmd, cmdp) != 0x00) {
         switch (tolower(param_getchar(Cmd, cmdp))) {
-            case 'h':
+        case 'h':
+            return usage_hf14_restore();
+        case 'u':
+            param_getstr(Cmd, cmdp + 1, szTemp, FILE_PATH_SIZE - 20);
+            if (keyFilename[0] == 0x00)
+                snprintf(keyFilename, FILE_PATH_SIZE, "hf-mf-%s-key.bin", szTemp);
+            if (dataFilename[0] == 0x00)
+                snprintf(dataFilename, FILE_PATH_SIZE, "hf-mf-%s-dump.bin", szTemp);
+            cmdp += 2;
+            break;
+        case 'k':
+            param_getstr(Cmd, cmdp + 1, keyFilename, FILE_PATH_SIZE);
+            cmdp += 2;
+            break;
+        case 'f':
+            param_getstr(Cmd, cmdp + 1, dataFilename, FILE_PATH_SIZE);
+            cmdp += 2;
+            break;
+        default:
+            if (cmdp == 0) {
+                numSectors = NumOfSectors(param_getchar(Cmd, cmdp));
+                if (numSectors == 0) return usage_hf14_restore();
+                cmdp++;
+            } else {
+                PrintAndLogEx(WARNING, "Unknown parameter '%c'\n", param_getchar(Cmd, cmdp));
                 return usage_hf14_restore();
-            case 'u':
-                param_getstr(Cmd, cmdp + 1, szTemp, FILE_PATH_SIZE - 20);
-                if (keyFilename[0] == 0x00)
-                    snprintf(keyFilename, FILE_PATH_SIZE, "hf-mf-%s-key.bin", szTemp);
-                if (dataFilename[0] == 0x00)
-                    snprintf(dataFilename, FILE_PATH_SIZE, "hf-mf-%s-dump.bin", szTemp);
-                cmdp += 2;
-                break;
-            case 'k':
-                param_getstr(Cmd, cmdp + 1, keyFilename, FILE_PATH_SIZE);
-                cmdp += 2;
-                break;
-            case 'f':
-                param_getstr(Cmd, cmdp + 1, dataFilename, FILE_PATH_SIZE);
-                cmdp += 2;
-                break;
-            default:
-                if (cmdp == 0) {
-                    numSectors = NumOfSectors(param_getchar(Cmd, cmdp));
-                    if (numSectors == 0) return usage_hf14_restore();
-                    cmdp++;
-                } else {
-                    PrintAndLogEx(WARNING, "Unknown parameter '%c'\n", param_getchar(Cmd, cmdp));
-                    return usage_hf14_restore();
-                }
+            }
         }
     }
 
@@ -1350,43 +1350,43 @@ static int CmdHF14AMfNested(const char *Cmd) {
     if (singleSector) {
         int16_t isOK = mfnested(blockNo, keyType, key, trgBlockNo, trgKeyType, keyBlock, true);
         switch (isOK) {
-            case PM3_ETIMEOUT:
-                PrintAndLogEx(ERR, "Command execute timeout\n");
-                break;
-            case PM3_EOPABORTED:
-                PrintAndLogEx(WARNING, "Button pressed. Aborted.\n");
-                break;
-            case PM3_EFAILED:
-                PrintAndLogEx(FAILED, "Tag isn't vulnerable to Nested Attack (PRNG is not predictable).\n");
-                break;
-            case PM3_ESOFT:
-                PrintAndLogEx(FAILED, "No valid key found");
-                break;
-            case PM3_SUCCESS:
-                key64 = bytes_to_num(keyBlock, 6);
+        case PM3_ETIMEOUT:
+            PrintAndLogEx(ERR, "Command execute timeout\n");
+            break;
+        case PM3_EOPABORTED:
+            PrintAndLogEx(WARNING, "Button pressed. Aborted.\n");
+            break;
+        case PM3_EFAILED:
+            PrintAndLogEx(FAILED, "Tag isn't vulnerable to Nested Attack (PRNG is not predictable).\n");
+            break;
+        case PM3_ESOFT:
+            PrintAndLogEx(FAILED, "No valid key found");
+            break;
+        case PM3_SUCCESS:
+            key64 = bytes_to_num(keyBlock, 6);
 
-                // transfer key to the emulator
-                if (transferToEml) {
-                    uint8_t sectortrailer;
+            // transfer key to the emulator
+            if (transferToEml) {
+                uint8_t sectortrailer;
 
-                    if (trgBlockNo < 32 * 4) {  // 4 block sector
-                        sectortrailer = trgBlockNo | 0x03;
-                    } else {                    // 16 block sector
-                        sectortrailer = trgBlockNo | 0x0f;
-                    }
-                    mfEmlGetMem(keyBlock, sectortrailer, 1);
-
-                    if (!trgKeyType)
-                        num_to_bytes(key64, 6, keyBlock);
-                    else
-                        num_to_bytes(key64, 6, &keyBlock[10]);
-
-                    mfEmlSetMem(keyBlock, sectortrailer, 1);
-                    PrintAndLogEx(SUCCESS, "Key transferred to emulator memory.");
+                if (trgBlockNo < 32 * 4) {  // 4 block sector
+                    sectortrailer = trgBlockNo | 0x03;
+                } else {                    // 16 block sector
+                    sectortrailer = trgBlockNo | 0x0f;
                 }
-                return PM3_SUCCESS;
-            default :
-                PrintAndLogEx(ERR, "Unknown error.\n");
+                mfEmlGetMem(keyBlock, sectortrailer, 1);
+
+                if (!trgKeyType)
+                    num_to_bytes(key64, 6, keyBlock);
+                else
+                    num_to_bytes(key64, 6, &keyBlock[10]);
+
+                mfEmlSetMem(keyBlock, sectortrailer, 1);
+                PrintAndLogEx(SUCCESS, "Key transferred to emulator memory.");
+            }
+            return PM3_SUCCESS;
+        default :
+            PrintAndLogEx(ERR, "Unknown error.\n");
         }
         return PM3_SUCCESS;
     } else { // ------------------------------------  multiple sectors working
@@ -1429,28 +1429,28 @@ static int CmdHF14AMfNested(const char *Cmd) {
 
                     int16_t isOK = mfnested(blockNo, keyType, key, FirstBlockOfSector(sectorNo), trgKeyType, keyBlock, calibrate);
                     switch (isOK) {
-                        case PM3_ETIMEOUT:
-                            PrintAndLogEx(ERR, "Command execute timeout\n");
-                            break;
-                        case PM3_EOPABORTED:
-                            PrintAndLogEx(WARNING, "button pressed. Aborted.\n");
-                            break;
-                        case PM3_EFAILED :
-                            PrintAndLogEx(FAILED, "Tag isn't vulnerable to Nested Attack (PRNG is not predictable).\n");
-                            break;
-                        case PM3_ESOFT:
-                            //key not found
-                            calibrate = false;
-                            continue;
-                        case PM3_SUCCESS:
-                            calibrate = false;
-                            e_sector[sectorNo].foundKey[trgKeyType] = 1;
-                            e_sector[sectorNo].Key[trgKeyType] = bytes_to_num(keyBlock, 6);
+                    case PM3_ETIMEOUT:
+                        PrintAndLogEx(ERR, "Command execute timeout\n");
+                        break;
+                    case PM3_EOPABORTED:
+                        PrintAndLogEx(WARNING, "button pressed. Aborted.\n");
+                        break;
+                    case PM3_EFAILED :
+                        PrintAndLogEx(FAILED, "Tag isn't vulnerable to Nested Attack (PRNG is not predictable).\n");
+                        break;
+                    case PM3_ESOFT:
+                        //key not found
+                        calibrate = false;
+                        continue;
+                    case PM3_SUCCESS:
+                        calibrate = false;
+                        e_sector[sectorNo].foundKey[trgKeyType] = 1;
+                        e_sector[sectorNo].Key[trgKeyType] = bytes_to_num(keyBlock, 6);
 
-                            mfCheckKeys_fast(SectorsCnt, true, true, 2, 1, keyBlock, e_sector, false);
-                            continue;
-                        default :
-                            PrintAndLogEx(ERR, "Unknown error.\n");
+                        mfCheckKeys_fast(SectorsCnt, true, true, 2, 1, keyBlock, e_sector, false);
+                        continue;
+                    default :
+                        PrintAndLogEx(ERR, "Unknown error.\n");
                     }
                     free(e_sector);
                     return PM3_ESOFT;
@@ -1681,22 +1681,22 @@ static int CmdHF14AMfNestedStatic(const char *Cmd) {
 
                 int16_t isOK = mfStaticNested(blockNo, keyType, key, FirstBlockOfSector(sectorNo), trgKeyType, keyBlock);
                 switch (isOK) {
-                    case PM3_ETIMEOUT :
-                        PrintAndLogEx(ERR, "Command execute timeout");
-                        break;
-                    case PM3_EOPABORTED :
-                        PrintAndLogEx(WARNING, "aborted via keyboard.");
-                        break;
-                    case PM3_ESOFT :
-                        continue;
-                    case PM3_SUCCESS :
-                        e_sector[sectorNo].foundKey[trgKeyType] = 1;
-                        e_sector[sectorNo].Key[trgKeyType] = bytes_to_num(keyBlock, 6);
+                case PM3_ETIMEOUT :
+                    PrintAndLogEx(ERR, "Command execute timeout");
+                    break;
+                case PM3_EOPABORTED :
+                    PrintAndLogEx(WARNING, "aborted via keyboard.");
+                    break;
+                case PM3_ESOFT :
+                    continue;
+                case PM3_SUCCESS :
+                    e_sector[sectorNo].foundKey[trgKeyType] = 1;
+                    e_sector[sectorNo].Key[trgKeyType] = bytes_to_num(keyBlock, 6);
 
-                        mfCheckKeys_fast(SectorsCnt, true, true, 2, 1, keyBlock, e_sector, false);
-                        continue;
-                    default :
-                        PrintAndLogEx(ERR, "unknown error.\n");
+                    mfCheckKeys_fast(SectorsCnt, true, true, 2, 1, keyBlock, e_sector, false);
+                    continue;
+                default :
+                    PrintAndLogEx(ERR, "unknown error.\n");
                 }
                 free(e_sector);
                 return PM3_ESOFT;
@@ -1807,68 +1807,68 @@ static int CmdHF14AMfNestedHard(const char *Cmd) {
     int tests = 0;
 
     switch (tolower(param_getchar(Cmd, cmdp))) {
-        case 'h':
-            return usage_hf14_hardnested();
-        case 'r': {
-            char *fptr = GenerateFilename("hf-mf-", "-nonces.bin");
-            if (fptr == NULL)
-                strncpy(filename, "nonces.bin", FILE_PATH_SIZE - 1);
-            else
-                strncpy(filename, fptr, FILE_PATH_SIZE - 1);
+    case 'h':
+        return usage_hf14_hardnested();
+    case 'r': {
+        char *fptr = GenerateFilename("hf-mf-", "-nonces.bin");
+        if (fptr == NULL)
+            strncpy(filename, "nonces.bin", FILE_PATH_SIZE - 1);
+        else
+            strncpy(filename, fptr, FILE_PATH_SIZE - 1);
 
-            free(fptr);
-            nonce_file_read = true;
-            if (!param_gethex(Cmd, cmdp + 1, trgkey, 12)) {
-                know_target_key = true;
-            }
-            cmdp++;
-            break;
+        free(fptr);
+        nonce_file_read = true;
+        if (!param_gethex(Cmd, cmdp + 1, trgkey, 12)) {
+            know_target_key = true;
         }
-        case 't':
-            tests = param_get32ex(Cmd, cmdp + 1, 100, 10);
-            if (!param_gethex(Cmd, cmdp + 2, trgkey, 12)) {
-                know_target_key = true;
-            }
-            cmdp += 2;
-            break;
-        default:
-            if (param_getchar(Cmd, cmdp) == 0x00) {
-                PrintAndLogEx(WARNING, "Block number is missing");
-                return usage_hf14_hardnested();
-            }
+        cmdp++;
+        break;
+    }
+    case 't':
+        tests = param_get32ex(Cmd, cmdp + 1, 100, 10);
+        if (!param_gethex(Cmd, cmdp + 2, trgkey, 12)) {
+            know_target_key = true;
+        }
+        cmdp += 2;
+        break;
+    default:
+        if (param_getchar(Cmd, cmdp) == 0x00) {
+            PrintAndLogEx(WARNING, "Block number is missing");
+            return usage_hf14_hardnested();
+        }
 
-            blockNo = param_get8(Cmd, cmdp);
-            ctmp = tolower(param_getchar(Cmd, cmdp + 1));
-            if (ctmp != 'a' && ctmp != 'b') {
-                PrintAndLogEx(WARNING, "Key type must be A or B");
-                return 1;
-            }
+        blockNo = param_get8(Cmd, cmdp);
+        ctmp = tolower(param_getchar(Cmd, cmdp + 1));
+        if (ctmp != 'a' && ctmp != 'b') {
+            PrintAndLogEx(WARNING, "Key type must be A or B");
+            return 1;
+        }
 
-            if (ctmp != 'a') {
-                keyType = 1;
-            }
+        if (ctmp != 'a') {
+            keyType = 1;
+        }
 
-            if (param_gethex(Cmd, cmdp + 2, key, 12)) {
-                PrintAndLogEx(WARNING, "Key must include 12 HEX symbols");
-                return 1;
-            }
+        if (param_gethex(Cmd, cmdp + 2, key, 12)) {
+            PrintAndLogEx(WARNING, "Key must include 12 HEX symbols");
+            return 1;
+        }
 
-            if (param_getchar(Cmd, cmdp + 3) == 0x00) {
-                PrintAndLogEx(WARNING, "Target block number is missing");
-                return 1;
-            }
+        if (param_getchar(Cmd, cmdp + 3) == 0x00) {
+            PrintAndLogEx(WARNING, "Target block number is missing");
+            return 1;
+        }
 
-            trgBlockNo = param_get8(Cmd, cmdp + 3);
+        trgBlockNo = param_get8(Cmd, cmdp + 3);
 
-            ctmp = tolower(param_getchar(Cmd, cmdp + 4));
-            if (ctmp != 'a' && ctmp != 'b') {
-                PrintAndLogEx(WARNING, "Target key type must be A or B");
-                return 1;
-            }
-            if (ctmp != 'a') {
-                trgKeyType = 1;
-            }
-            cmdp += 5;
+        ctmp = tolower(param_getchar(Cmd, cmdp + 4));
+        if (ctmp != 'a' && ctmp != 'b') {
+            PrintAndLogEx(WARNING, "Target key type must be A or B");
+            return 1;
+        }
+        if (ctmp != 'a') {
+            trgKeyType = 1;
+        }
+        cmdp += 5;
     }
     if (!param_gethex(Cmd, cmdp, trgkey, 12)) {
         know_target_key = true;
@@ -1877,64 +1877,64 @@ static int CmdHF14AMfNestedHard(const char *Cmd) {
 
     while ((ctmp = param_getchar(Cmd, cmdp))) {
         switch (tolower(ctmp)) {
-            case 's':
-                slow = true;
-                break;
-            case 'w': {
-                nonce_file_write = true;
-                char *fptr = GenerateFilename("hf-mf-", "-nonces.bin");
-                if (fptr == NULL)
-                    return 1;
-                strncpy(filename, fptr, FILE_PATH_SIZE - 1);
-                free(fptr);
-                break;
-            }
-            case 'u':
-                param_getstr(Cmd, cmdp + 1, szTemp, FILE_PATH_SIZE - 20);
-                snprintf(filename, FILE_PATH_SIZE, "hf-mf-%s-nonces.bin", szTemp);
-                cmdp++;
-                break;
-            case 'f':
-                param_getstr(Cmd, cmdp + 1, szTemp, FILE_PATH_SIZE - 20);
-                strncpy(filename, szTemp, FILE_PATH_SIZE - 20);
-                cmdp++;
-                break;
-            case 'i':
-                SetSIMDInstr(SIMD_AUTO);
-                ctmp = tolower(param_getchar(Cmd, cmdp + 1));
-                switch (ctmp) {
+        case 's':
+            slow = true;
+            break;
+        case 'w': {
+            nonce_file_write = true;
+            char *fptr = GenerateFilename("hf-mf-", "-nonces.bin");
+            if (fptr == NULL)
+                return 1;
+            strncpy(filename, fptr, FILE_PATH_SIZE - 1);
+            free(fptr);
+            break;
+        }
+        case 'u':
+            param_getstr(Cmd, cmdp + 1, szTemp, FILE_PATH_SIZE - 20);
+            snprintf(filename, FILE_PATH_SIZE, "hf-mf-%s-nonces.bin", szTemp);
+            cmdp++;
+            break;
+        case 'f':
+            param_getstr(Cmd, cmdp + 1, szTemp, FILE_PATH_SIZE - 20);
+            strncpy(filename, szTemp, FILE_PATH_SIZE - 20);
+            cmdp++;
+            break;
+        case 'i':
+            SetSIMDInstr(SIMD_AUTO);
+            ctmp = tolower(param_getchar(Cmd, cmdp + 1));
+            switch (ctmp) {
 #if defined(COMPILER_HAS_SIMD_AVX512)
-                    case '5':
-                        SetSIMDInstr(SIMD_AVX512);
-                        break;
+            case '5':
+                SetSIMDInstr(SIMD_AVX512);
+                break;
 #endif
 #if defined(COMPILER_HAS_SIMD)
-                    case '2':
-                        SetSIMDInstr(SIMD_AVX2);
-                        break;
-                    case 'a':
-                        SetSIMDInstr(SIMD_AVX);
-                        break;
-                    case 's':
-                        SetSIMDInstr(SIMD_SSE2);
-                        break;
-                    case 'm':
-                        SetSIMDInstr(SIMD_MMX);
-                        break;
+            case '2':
+                SetSIMDInstr(SIMD_AVX2);
+                break;
+            case 'a':
+                SetSIMDInstr(SIMD_AVX);
+                break;
+            case 's':
+                SetSIMDInstr(SIMD_SSE2);
+                break;
+            case 'm':
+                SetSIMDInstr(SIMD_MMX);
+                break;
 #endif
-                    case 'n':
-                        SetSIMDInstr(SIMD_NONE);
-                        break;
-                    default:
-                        PrintAndLogEx(WARNING, "Unknown SIMD type. %c", ctmp);
-                        return 1;
-                }
-                cmdp += 2;
+            case 'n':
+                SetSIMDInstr(SIMD_NONE);
                 break;
             default:
-                PrintAndLogEx(WARNING, "Unknown parameter '%c'\n", ctmp);
-                usage_hf14_hardnested();
+                PrintAndLogEx(WARNING, "Unknown SIMD type. %c", ctmp);
                 return 1;
+            }
+            cmdp += 2;
+            break;
+        default:
+            PrintAndLogEx(WARNING, "Unknown parameter '%c'\n", ctmp);
+            usage_hf14_hardnested();
+            return 1;
         }
         cmdp++;
     }
@@ -1976,14 +1976,14 @@ static int CmdHF14AMfNestedHard(const char *Cmd) {
 
     if (isOK) {
         switch (isOK) {
-            case 1 :
-                PrintAndLogEx(ERR, "Error: No response from Proxmark3.\n");
-                break;
-            case 2 :
-                PrintAndLogEx(NORMAL, "Button pressed. Aborted.\n");
-                break;
-            default :
-                break;
+        case 1 :
+            PrintAndLogEx(ERR, "Error: No response from Proxmark3.\n");
+            break;
+        case 2 :
+            PrintAndLogEx(NORMAL, "Button pressed. Aborted.\n");
+            break;
+        default :
+            break;
         }
         return 2;
     }
@@ -2032,98 +2032,98 @@ static int CmdHF14AMfAutoPWN(const char *Cmd) {
     // Parse the options given by the user
     while ((ctmp = param_getchar(Cmd, cmdp)) && !errors) {
         switch (tolower(ctmp)) {
-            case 'h':
-                return usage_hf14_autopwn();
-            case 'f':
-                if (param_getstr(Cmd, cmdp + 1, filename, FILE_PATH_SIZE) >= FILE_PATH_SIZE) {
-                    PrintAndLogEx(FAILED, "Filename too long");
-                    errors = true;
-                } else {
-                    has_filename = true;
-                }
-                cmdp += 2;
+        case 'h':
+            return usage_hf14_autopwn();
+        case 'f':
+            if (param_getstr(Cmd, cmdp + 1, filename, FILE_PATH_SIZE) >= FILE_PATH_SIZE) {
+                PrintAndLogEx(FAILED, "Filename too long");
+                errors = true;
+            } else {
+                has_filename = true;
+            }
+            cmdp += 2;
+            break;
+        case 'l':
+            legacy_mfchk = true;
+            cmdp++;
+            break;
+        case 'v':
+            verbose = true;
+            cmdp++;
+            break;
+        case '*':
+            // Get the number of sectors
+            sectors_cnt = NumOfSectors(param_getchar(Cmd, cmdp + 1));
+            block_cnt = NumOfBlocks(param_getchar(Cmd, cmdp + 1));
+            cmdp += 2;
+            break;
+        case 'k':
+            // Get the known block number
+            if (param_getchar(Cmd, cmdp + 1) == 0x00) {
+                errors = true;
                 break;
-            case 'l':
-                legacy_mfchk = true;
-                cmdp++;
-                break;
-            case 'v':
-                verbose = true;
-                cmdp++;
-                break;
-            case '*':
-                // Get the number of sectors
-                sectors_cnt = NumOfSectors(param_getchar(Cmd, cmdp + 1));
-                block_cnt = NumOfBlocks(param_getchar(Cmd, cmdp + 1));
-                cmdp += 2;
-                break;
-            case 'k':
-                // Get the known block number
-                if (param_getchar(Cmd, cmdp + 1) == 0x00) {
-                    errors = true;
-                    break;
-                }
+            }
 
-                blockNo = param_get8(Cmd, cmdp + 1);
+            blockNo = param_get8(Cmd, cmdp + 1);
 
-                // Get the knonwn block type
-                ctmp = tolower(param_getchar(Cmd, cmdp + 2));
-                if (ctmp != 'a' && ctmp != 'b') {
-                    PrintAndLogEx(WARNING, "Key type must be A or B");
-                    errors = true;
-                    break;
-                }
-
-                if (ctmp != 'a') {
-                    keyType = 1;
-                }
-
-                // Get the known block key
-                if (param_gethex(Cmd, cmdp + 3, key, 12)) {
-                    PrintAndLogEx(WARNING, "Key must include 12 HEX symbols");
-                    errors = true;
-                }
-                know_target_key = true;
-                cmdp += 3;
-            case 's':
-                slow = true;
-                cmdp++;
+            // Get the knonwn block type
+            ctmp = tolower(param_getchar(Cmd, cmdp + 2));
+            if (ctmp != 'a' && ctmp != 'b') {
+                PrintAndLogEx(WARNING, "Key type must be A or B");
+                errors = true;
                 break;
-            case 'i':
-                SetSIMDInstr(SIMD_AUTO);
-                ctmp = tolower(param_getchar(Cmd, cmdp + 1));
-                switch (ctmp) {
+            }
+
+            if (ctmp != 'a') {
+                keyType = 1;
+            }
+
+            // Get the known block key
+            if (param_gethex(Cmd, cmdp + 3, key, 12)) {
+                PrintAndLogEx(WARNING, "Key must include 12 HEX symbols");
+                errors = true;
+            }
+            know_target_key = true;
+            cmdp += 3;
+        case 's':
+            slow = true;
+            cmdp++;
+            break;
+        case 'i':
+            SetSIMDInstr(SIMD_AUTO);
+            ctmp = tolower(param_getchar(Cmd, cmdp + 1));
+            switch (ctmp) {
 #if defined(COMPILER_HAS_SIMD_AVX512)
-                    case '5':
-                        SetSIMDInstr(SIMD_AVX512);
-                        break;
+            case '5':
+                SetSIMDInstr(SIMD_AVX512);
+                break;
 #endif
 #if defined(COMPILER_HAS_SIMD)
-                    case '2':
-                        SetSIMDInstr(SIMD_AVX2);
-                        break;
-                    case 'a':
-                        SetSIMDInstr(SIMD_AVX);
-                        break;
-                    case 's':
-                        SetSIMDInstr(SIMD_SSE2);
-                        break;
-                    case 'm':
-                        SetSIMDInstr(SIMD_MMX);
-                        break;
+            case '2':
+                SetSIMDInstr(SIMD_AVX2);
+                break;
+            case 'a':
+                SetSIMDInstr(SIMD_AVX);
+                break;
+            case 's':
+                SetSIMDInstr(SIMD_SSE2);
+                break;
+            case 'm':
+                SetSIMDInstr(SIMD_MMX);
+                break;
 #endif
-                    case 'n':
-                        SetSIMDInstr(SIMD_NONE);
-                        break;
-                    default:
-                        PrintAndLogEx(WARNING, "Unknown SIMD type. %c", ctmp);
-                        return PM3_EINVARG;
-                }
-                cmdp += 2;
+            case 'n':
+                SetSIMDInstr(SIMD_NONE);
                 break;
             default:
-                PrintAndLogEx(WARNING, "Unknown parameter '%c'\n", ctmp);
-                return usage_hf14_autopwn();
+                PrintAndLogEx(WARNING, "Unknown SIMD type. %c", ctmp);
+                return PM3_EINVARG;
+            }
+            cmdp += 2;
+            break;
+        default:
+            PrintAndLogEx(WARNING, "Unknown parameter '%c'\n", ctmp);
+            return usage_hf14_autopwn();
         }
     }
 
@@ -2374,25 +2374,25 @@ static int CmdHF14AMfAutoPWN(const char *Cmd) {
             isOK = mfDarkside(FirstBlockOfSector(blockNo), keyType + 0x60, &key64);
 
             switch (isOK) {
-                case -1 :
-                    PrintAndLogEx(WARNING, "\nButton pressed. Aborted.");
-                    goto noValidKeyFound;
-                case -2 :
-                    PrintAndLogEx(FAILED, "\nCard is not vulnerable to Darkside attack (doesn't send NACK on authentication requests).");
-                    goto noValidKeyFound;
-                case -3 :
-                    PrintAndLogEx(FAILED, "\nCard is not vulnerable to Darkside attack (its random number generator is not predictable).");
-                    goto noValidKeyFound;
-                case -4 :
-                    PrintAndLogEx(FAILED, "\nCard is not vulnerable to Darkside attack (its random number generator seems to be based on the wellknown");
-                    PrintAndLogEx(FAILED, "generating polynomial with 16 effective bits only, but shows unexpected behaviour.");
-                    goto noValidKeyFound;
-                case -5 :
-                    PrintAndLogEx(WARNING, "\nAborted via keyboard.");
-                    goto noValidKeyFound;
-                default :
-                    PrintAndLogEx(SUCCESS, "\nFound valid key: [ " _GREEN_("%012" PRIx64) " ]\n", key64);
-                    break;
+            case -1 :
+                PrintAndLogEx(WARNING, "\nButton pressed. Aborted.");
+                goto noValidKeyFound;
+            case -2 :
+                PrintAndLogEx(FAILED, "\nCard is not vulnerable to Darkside attack (doesn't send NACK on authentication requests).");
+                goto noValidKeyFound;
+            case -3 :
+                PrintAndLogEx(FAILED, "\nCard is not vulnerable to Darkside attack (its random number generator is not predictable).");
+                goto noValidKeyFound;
+            case -4 :
+                PrintAndLogEx(FAILED, "\nCard is not vulnerable to Darkside attack (its random number generator seems to be based on the wellknown");
+                PrintAndLogEx(FAILED, "generating polynomial with 16 effective bits only, but shows unexpected behaviour.");
+                goto noValidKeyFound;
+            case -5 :
+                PrintAndLogEx(WARNING, "\nAborted via keyboard.");
+                goto noValidKeyFound;
+            default :
+                PrintAndLogEx(SUCCESS, "\nFound valid key: [ " _GREEN_("%012" PRIx64) " ]\n", key64);
+                break;
             }
 
             // Store the keys
@@ -2520,49 +2520,49 @@ tryNested:
                         isOK = mfnested(FirstBlockOfSector(blockNo), keyType, key, FirstBlockOfSector(current_sector_i), current_key_type_i, tmp_key, calibrate);
 
                         switch (isOK) {
-                            case PM3_ETIMEOUT: {
-                                PrintAndLogEx(ERR, "\nError: No response from Proxmark3.");
-                                free(e_sector);
-                                free(fptr);
-                                return PM3_ESOFT;
-                            }
-                            case PM3_EOPABORTED: {
-                                PrintAndLogEx(WARNING, "\nButton pressed. Aborted.");
-                                free(e_sector);
-                                free(fptr);
-                                return PM3_EOPABORTED;
-                            }
-                            case PM3_EFAILED: {
-                                PrintAndLogEx(FAILED, "Tag isn't vulnerable to Nested Attack (PRNG is probably not predictable).");
-                                PrintAndLogEx(FAILED, "Nested attack failed --> try hardnested");
+                        case PM3_ETIMEOUT: {
+                            PrintAndLogEx(ERR, "\nError: No response from Proxmark3.");
+                            free(e_sector);
+                            free(fptr);
+                            return PM3_ESOFT;
+                        }
+                        case PM3_EOPABORTED: {
+                            PrintAndLogEx(WARNING, "\nButton pressed. Aborted.");
+                            free(e_sector);
+                            free(fptr);
+                            return PM3_EOPABORTED;
+                        }
+                        case PM3_EFAILED: {
+                            PrintAndLogEx(FAILED, "Tag isn't vulnerable to Nested Attack (PRNG is probably not predictable).");
+                            PrintAndLogEx(FAILED, "Nested attack failed --> try hardnested");
+                            goto tryHardnested;
+                        }
+                        case PM3_ESOFT: {
+                            // key not found
+                            calibrate = false;
+                            // this can happen on some old cards, it's worth trying some more before switching to slower hardnested
+                            if (retries++ < MIFARE_SECTOR_RETRY) {
+                                PrintAndLogEx(FAILED, "Nested attack failed, trying again (%i/%i)", retries, MIFARE_SECTOR_RETRY);
+                                goto tryNested;
+                            } else {
+                                PrintAndLogEx(FAILED, "Nested attack failed, moving to hardnested");
+                                nested_failed = true;
                                 goto tryHardnested;
                             }
-                            case PM3_ESOFT: {
-                                // key not found
-                                calibrate = false;
-                                // this can happen on some old cards, it's worth trying some more before switching to slower hardnested
-                                if (retries++ < MIFARE_SECTOR_RETRY) {
-                                    PrintAndLogEx(FAILED, "Nested attack failed, trying again (%i/%i)", retries, MIFARE_SECTOR_RETRY);
-                                    goto tryNested;
-                                } else {
-                                    PrintAndLogEx(FAILED, "Nested attack failed, moving to hardnested");
-                                    nested_failed = true;
-                                    goto tryHardnested;
-                                }
-                                break;
-                            }
-                            case PM3_SUCCESS: {
-                                calibrate = false;
-                                e_sector[current_sector_i].Key[current_key_type_i] = bytes_to_num(tmp_key, 6);
-                                e_sector[current_sector_i].foundKey[current_key_type_i] = 'N';
-                                break;
-                            }
-                            default: {
-                                PrintAndLogEx(ERR, "unknown Error.\n");
-                                free(e_sector);
-                                free(fptr);
-                                return PM3_ESOFT;
-                            }
+                            break;
+                        }
+                        case PM3_SUCCESS: {
+                            calibrate = false;
+                            e_sector[current_sector_i].Key[current_key_type_i] = bytes_to_num(tmp_key, 6);
+                            e_sector[current_sector_i].foundKey[current_key_type_i] = 'N';
+                            break;
+                        }
+                        default: {
+                            PrintAndLogEx(ERR, "unknown Error.\n");
+                            free(e_sector);
+                            free(fptr);
+                            return PM3_ESOFT;
+                        }
                         }
 
                     } else {
@@ -2579,17 +2579,17 @@ tryHardnested: // If the nested attack fails then we try the hardnested attack
                         DropField();
                         if (isOK) {
                             switch (isOK) {
-                                case 1: {
-                                    PrintAndLogEx(ERR, "\nError: No response from Proxmark3.");
-                                    break;
-                                }
-                                case 2: {
-                                    PrintAndLogEx(NORMAL, "\nButton pressed. Aborted.");
-                                    break;
-                                }
-                                default: {
-                                    break;
-                                }
+                            case 1: {
+                                PrintAndLogEx(ERR, "\nError: No response from Proxmark3.");
+                                break;
+                            }
+                            case 2: {
+                                PrintAndLogEx(NORMAL, "\nButton pressed. Aborted.");
+                                break;
+                            }
+                            default: {
+                                break;
+                            }
                             }
                             free(e_sector);
                             free(fptr);
@@ -2614,26 +2614,26 @@ tryStaticnested:
                         isOK = mfStaticNested(blockNo, keyType, key, FirstBlockOfSector(current_sector_i), current_key_type_i, tmp_key);
                         DropField();
                         switch (isOK) {
-                            case PM3_ETIMEOUT: {
-                                PrintAndLogEx(ERR, "\nError: No response from Proxmark3.");
-                                free(e_sector);
-                                free(fptr);
-                                return PM3_ESOFT;
-                            }
-                            case PM3_EOPABORTED: {
-                                PrintAndLogEx(WARNING, "\nButton pressed. Aborted.");
-                                free(e_sector);
-                                free(fptr);
-                                return PM3_EOPABORTED;
-                            }
-                            case PM3_SUCCESS: {
-                                e_sector[current_sector_i].Key[current_key_type_i] = bytes_to_num(tmp_key, 6);
-                                e_sector[current_sector_i].foundKey[current_key_type_i] = 'C';
-                                break;
-                            }
-                            default: {
-                                break;
-                            }
+                        case PM3_ETIMEOUT: {
+                            PrintAndLogEx(ERR, "\nError: No response from Proxmark3.");
+                            free(e_sector);
+                            free(fptr);
+                            return PM3_ESOFT;
+                        }
+                        case PM3_EOPABORTED: {
+                            PrintAndLogEx(WARNING, "\nButton pressed. Aborted.");
+                            free(e_sector);
+                            free(fptr);
+                            return PM3_EOPABORTED;
+                        }
+                        case PM3_SUCCESS: {
+                            e_sector[current_sector_i].Key[current_key_type_i] = bytes_to_num(tmp_key, 6);
+                            e_sector[current_sector_i].foundKey[current_key_type_i] = 'C';
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
                         }
                     }
 
@@ -3482,21 +3482,21 @@ static int CmdHF14AMfSim(const char *Cmd) {
     char uidsize[8] = {0};
     if (uidlen > 0) {
         switch (uidlen) {
-            case 10:
-                flags |= FLAG_10B_UID_IN_DATA;
-                snprintf(uidsize, sizeof(uidsize), "10 byte");
-                break;
-            case 7:
-                flags |= FLAG_7B_UID_IN_DATA;
-                snprintf(uidsize, sizeof(uidsize), "7 byte");
-                break;
-            case 4:
-                flags |= FLAG_4B_UID_IN_DATA;
-                snprintf(uidsize, sizeof(uidsize), "4 byte");
-                break;
-            default:
-                PrintAndLogEx(WARNING, "Invalid parameter for UID");
-                return PM3_EINVARG;
+        case 10:
+            flags |= FLAG_10B_UID_IN_DATA;
+            snprintf(uidsize, sizeof(uidsize), "10 byte");
+            break;
+        case 7:
+            flags |= FLAG_7B_UID_IN_DATA;
+            snprintf(uidsize, sizeof(uidsize), "7 byte");
+            break;
+        case 4:
+            flags |= FLAG_4B_UID_IN_DATA;
+            snprintf(uidsize, sizeof(uidsize), "4 byte");
+            break;
+        default:
+            PrintAndLogEx(WARNING, "Invalid parameter for UID");
+            return PM3_EINVARG;
         }
     }
 
@@ -3814,27 +3814,27 @@ int CmdHF14AMfELoad(const char *Cmd) {
         return usage_hf14_eload();
 
     switch (c) {
-        case '0' :
-            numBlocks = MIFARE_MINI_MAXBLOCK;
-            break;
-        case '1' :
-        case '\0':
-            numBlocks = MIFARE_1K_MAXBLOCK;
-            break;
-        case '2' :
-            numBlocks = MIFARE_2K_MAXBLOCK;
-            break;
-        case '4' :
-            numBlocks = MIFARE_4K_MAXBLOCK;
-            break;
-        case 'u' :
-            numBlocks = 255;
-            blockWidth = 4;
-            break;
-        default:  {
-            numBlocks = MIFARE_1K_MAXBLOCK;
-            nameParamNo = 0;
-        }
+    case '0' :
+        numBlocks = MIFARE_MINI_MAXBLOCK;
+        break;
+    case '1' :
+    case '\0':
+        numBlocks = MIFARE_1K_MAXBLOCK;
+        break;
+    case '2' :
+        numBlocks = MIFARE_2K_MAXBLOCK;
+        break;
+    case '4' :
+        numBlocks = MIFARE_4K_MAXBLOCK;
+        break;
+    case 'u' :
+        numBlocks = 255;
+        blockWidth = 4;
+        break;
+    default:  {
+        numBlocks = MIFARE_1K_MAXBLOCK;
+        nameParamNo = 0;
+    }
     }
     uint32_t numblk2 = param_get32ex(Cmd, 2, 0, 10);
     if (numblk2 > 0)
@@ -4076,24 +4076,24 @@ static int CmdHF14AMfEKeyPrn(const char *Cmd) {
     while (param_getchar(Cmd, cmdp) != 0x00 && !errors) {
         char ctmp = tolower(param_getchar(Cmd, cmdp));
         switch (ctmp) {
-            case 'd':
-                createDumpFile = true;
-                cmdp++;
-                break;
-            case 'h':
-                return usage_hf14_ekeyprn();
-            case '0':
-            case '1':
-            case '2':
-            case '4':
-                sectors_cnt = NumOfSectors(ctmp);
-                if (sectors_cnt == 0) return usage_hf14_ekeyprn();
-                cmdp++;
-                break;
-            default:
-                PrintAndLogEx(WARNING, "Unknown parameter '%c'", param_getchar(Cmd, cmdp));
-                errors = true;
-                break;
+        case 'd':
+            createDumpFile = true;
+            cmdp++;
+            break;
+        case 'h':
+            return usage_hf14_ekeyprn();
+        case '0':
+        case '1':
+        case '2':
+        case '4':
+            sectors_cnt = NumOfSectors(ctmp);
+            if (sectors_cnt == 0) return usage_hf14_ekeyprn();
+            cmdp++;
+            break;
+        default:
+            PrintAndLogEx(WARNING, "Unknown parameter '%c'", param_getchar(Cmd, cmdp));
+            errors = true;
+            break;
         }
     }
     // validations
@@ -4481,42 +4481,42 @@ static int CmdHF14AMfCSave(const char *Cmd) {
     while (param_getchar(Cmd, cmdp) != 0x00 && !errors) {
         char ctmp = tolower(param_getchar(Cmd, cmdp));
         switch (ctmp) {
-            case 'e':
-                useuid = true;
-                fillEmulator = true;
-                cmdp++;
-                break;
-            case 'h':
-                return usage_hf14_csave();
-            case '0':
-            case '1':
-            case '2':
-            case '4':
-                numblocks = NumOfBlocks(ctmp);
-                bytes =  numblocks * MFBLOCK_SIZE;
-                PrintAndLogEx(SUCCESS, "Saving magic MIFARE %cK", ctmp);
-                cmdp++;
-                break;
-            case 'u':
-                useuid = true;
-                hasname = true;
-                cmdp++;
-                break;
-            case 'o':
-                len = param_getstr(Cmd, cmdp + 1, filename, FILE_PATH_SIZE);
-                if (len < 1) {
-                    errors = true;
-                    break;
-                }
-
-                useuid = false;
-                hasname = true;
-                cmdp += 2;
-                break;
-            default:
-                PrintAndLogEx(WARNING, "Unknown parameter '%c'", param_getchar(Cmd, cmdp));
+        case 'e':
+            useuid = true;
+            fillEmulator = true;
+            cmdp++;
+            break;
+        case 'h':
+            return usage_hf14_csave();
+        case '0':
+        case '1':
+        case '2':
+        case '4':
+            numblocks = NumOfBlocks(ctmp);
+            bytes =  numblocks * MFBLOCK_SIZE;
+            PrintAndLogEx(SUCCESS, "Saving magic MIFARE %cK", ctmp);
+            cmdp++;
+            break;
+        case 'u':
+            useuid = true;
+            hasname = true;
+            cmdp++;
+            break;
+        case 'o':
+            len = param_getstr(Cmd, cmdp + 1, filename, FILE_PATH_SIZE);
+            if (len < 1) {
                 errors = true;
                 break;
+            }
+
+            useuid = false;
+            hasname = true;
+            cmdp += 2;
+            break;
+        default:
+            PrintAndLogEx(WARNING, "Unknown parameter '%c'", param_getchar(Cmd, cmdp));
+            errors = true;
+            break;
         }
     }
 
@@ -4612,20 +4612,20 @@ static int CmdHF14AMfCView(const char *Cmd) {
     while (param_getchar(Cmd, cmdp) != 0x00 && !errors) {
         ctmp = tolower(param_getchar(Cmd, cmdp));
         switch (ctmp) {
-            case 'h':
-                return usage_hf14_cview();
-            case '0':
-            case '1':
-            case '2':
-            case '4':
-                numblocks = NumOfBlocks(ctmp);
-                bytes =  numblocks * MFBLOCK_SIZE;
-                cmdp++;
-                break;
-            default:
-                PrintAndLogEx(WARNING, "Unknown parameter '%c'", param_getchar(Cmd, cmdp));
-                errors = true;
-                break;
+        case 'h':
+            return usage_hf14_cview();
+        case '0':
+        case '1':
+        case '2':
+        case '4':
+            numblocks = NumOfBlocks(ctmp);
+            bytes =  numblocks * MFBLOCK_SIZE;
+            cmdp++;
+            break;
+        default:
+            PrintAndLogEx(WARNING, "Unknown parameter '%c'", param_getchar(Cmd, cmdp));
+            errors = true;
+            break;
         }
     }
 

@@ -98,24 +98,40 @@ int get_block_count(iso14a_card_select_t card, uint8_t version[], uint16_t versi
         // Infinition MY-D tests   Exam high nibble
         uint8_t nib = (card.uid[1] & 0xf0) >> 4;
         switch (nib) {
-            case 3:
-                block_count = MAX_MY_D_MOVE;
-                break; // or SLE 66R01P // 38 pages of 4 bytes
-            case 7:
-                block_count = MAX_MY_D_MOVE_LEAN;
-                break; // or SLE 66R01L  // 16 pages of 4 bytes
+        case 3:
+            block_count = MAX_MY_D_MOVE;
+            break; // or SLE 66R01P // 38 pages of 4 bytes
+        case 7:
+            block_count = MAX_MY_D_MOVE_LEAN;
+            break; // or SLE 66R01L  // 16 pages of 4 bytes
         }
     } else {
         // Moved this from case to if as I only care about non-ultralight ev0.
         if (version_len == 0x0A) {
-            if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0B", 7) == 0)      { block_count = MAX_ULEV1a_BLOCKS; }
-            else if (memcmp(version, "\x00\x04\x03\x01\x02\x00\x0B", 7) == 0) { block_count = MAX_UL_NANO_40; }
-            else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0B", 7) == 0) { block_count = MAX_ULEV1a_BLOCKS; }
-            else if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0E", 7) == 0) { block_count = MAX_ULEV1b_BLOCKS; }
-            else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0E", 7) == 0) { block_count = MAX_ULEV1b_BLOCKS; }
-            else if (memcmp(version, "\x00\x34\x21\x01\x01\x00\x0E", 7) == 0) { block_count = MAX_ULEV1b_BLOCKS; } // Mikron JSC Russia EV1 41 pages tag
-            else if (memcmp(version, "\x00\x34\x21\x01\x01\x00\x0E", 7) == 0) { block_count = MAX_UL_BLOCKS; }
-            else if (version[2] == 0x03) { block_count = MAX_ULEV1a_BLOCKS; }
+            if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0B", 7) == 0)      {
+                block_count = MAX_ULEV1a_BLOCKS;
+            }
+            else if (memcmp(version, "\x00\x04\x03\x01\x02\x00\x0B", 7) == 0) {
+                block_count = MAX_UL_NANO_40;
+            }
+            else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0B", 7) == 0) {
+                block_count = MAX_ULEV1a_BLOCKS;
+            }
+            else if (memcmp(version, "\x00\x04\x03\x01\x01\x00\x0E", 7) == 0) {
+                block_count = MAX_ULEV1b_BLOCKS;
+            }
+            else if (memcmp(version, "\x00\x04\x03\x02\x01\x00\x0E", 7) == 0) {
+                block_count = MAX_ULEV1b_BLOCKS;
+            }
+            else if (memcmp(version, "\x00\x34\x21\x01\x01\x00\x0E", 7) == 0) {
+                block_count = MAX_ULEV1b_BLOCKS;    // Mikron JSC Russia EV1 41 pages tag
+            }
+            else if (memcmp(version, "\x00\x34\x21\x01\x01\x00\x0E", 7) == 0) {
+                block_count = MAX_UL_BLOCKS;
+            }
+            else if (version[2] == 0x03) {
+                block_count = MAX_ULEV1a_BLOCKS;
+            }
         }
     }
 
