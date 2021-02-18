@@ -12,13 +12,13 @@
 #define CMDFLASHMEM_H__
 
 #include "common.h"
-#include "pmflash.h"           // rdv40validation_t
+#include "pmflash.h" // rdv40validation_t
 
 typedef enum {
-    DICTIONARY_NONE = 0,
-    DICTIONARY_MIFARE,
-    DICTIONARY_T55XX,
-    DICTIONARY_ICLASS
+  DICTIONARY_NONE = 0,
+  DICTIONARY_MIFARE,
+  DICTIONARY_T55XX,
+  DICTIONARY_ICLASS
 } Dictionary_t;
 
 int CmdFlashMem(const char *Cmd);
