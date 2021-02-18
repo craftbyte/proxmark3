@@ -1171,7 +1171,7 @@ to show that it is on par with PM3 Offical v3 release.
   using values from the `BigBuffer` -> `hf legic writeRaw <addr> <value>`
   (@icsom)
 - Added possibility to decrease DCF values at address 0x05 & 0x06 on a Legic
-  Prime Tag  
+  Prime Tag
   DCF-value will be pulled from the BigBuffer (address 0x05 & 0x06) so you have
   to load the data into the BigBuffer before with
   `hf legic load <path/to/legic.dump>` & then write the DCF-Values (both at
